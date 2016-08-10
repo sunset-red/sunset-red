@@ -1,0 +1,81 @@
+.homepage {
+  background: url("../image/background.jpg") no-repeat;
+  background-size:100% 100%;
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  width: 100%;
+  height: 110px;
+  /*background-color: #9d9d9d;*/
+  padding: 10px 20px;
+}
+
+h1 {
+  font-size: 50px;
+  margin-top: -5px;
+}
+
+.title {
+  float: left;
+  color: #2e2041;
+  width: 100%;
+  height: 50px;
+  margin: 10px 15px;
+}
+
+.logo {
+  float: left;
+  width: 50px;
+  height: 50px;
+  border-radius: 45%;
+  margin-right: 20px;
+}
+
+.language {
+  margin-left: 25px;
+  font: italic bold 15px/20px arial, sans-serif;
+  color: #18121c;
+}
+
+.middle {
+  width: 100%;
+  height: 480px;
+  /*background-color: #d1ffee;*/
+  padding: 60px;
+
+}
+
+.signin {
+  width: 30%;
+  height: 300px;
+  padding: 80px;
+  float: right;
+  border: solid 1px #23ffbc;
+}
+
+input {
+  outline: none;
+}
+
+.description {
+  height: 200px;
+  margin-top: 250px;
+  margin-left: 80px;
+}
+
+.description span {
+  height: 80px;
+  color: #a282ff;
+  font: bold 50px/80px arial, sans-serif;
+}
+
+.choose {
+  margin: 20px 20px;
+  padding: 20px;
+}
+
+#footer{
+  margin-bottom: 15px;
+}
