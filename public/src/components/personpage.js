@@ -11,7 +11,6 @@ export default class PersonPage extends Component {
 
   findFriends() {
     this.setState({isWantToFindFriends: !this.state.isWantToFindFriends});
-    console.log(this.state.isWantToFindFriends);
   }
 
   render() {
