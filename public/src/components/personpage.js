@@ -157,7 +157,7 @@ class Hobbies extends Component {
   render() {
     return <div className="input-group">
       <span className="input-group-addon">兴趣</span>
-      <Select multi simpleValue disabled={this.state.disabled} value={this.state.hobbies}
+      <Select multi-simpleValue disabled={this.state.disabled} value={this.state.hobbies}
               placeholder="Select your favourite(s)" options={this.state.options}
               onChange={this.setHobbies.bind(this)}/>
     </div>

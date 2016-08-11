@@ -6,6 +6,8 @@ import App from "./components/App";
 import HomePage from './components/homepage';
 import PersonPage from './components/personpage';
 import SignUpPage from './components/signup-page';
+import forgetPage from './components/forgetPage';
+
 
 ReactDOM.render(
   <Router history={hashHistory}>
@@ -13,6 +15,8 @@ ReactDOM.render(
       <IndexRoute component={HomePage}/>
       <Route path='personPage' component={PersonPage}/>
       <Route path='signUpPage' component={SignUpPage}/>
+      <Route path='forgetPage' component={forgetPage}/>
+
     </Route>
   </Router>
   , document.getElementById("app")

@@ -46,12 +46,12 @@ const HobbyMultiSelectField = React.createClass({
 	},
   render:function () {
     return (<div className='section'>
-    <Select multi simpleValue disabled={this.state.disabled} value={this.state.value}
+    <Select multi-simpleValue disabled={this.state.disabled} value={this.state.value}
      placeholder="Select your favourite(s)" options={this.state.options}
      onChange={this.handleSelectChange} />
   </div>)
   }
-})
+});
 
 const CitySelectField = React.createClass({
   getInitialState:function(){

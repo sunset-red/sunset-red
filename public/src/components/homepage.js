@@ -4,7 +4,7 @@ import {Link} from "react-router";
 export default class HomePage extends Component {
   render() {
     return (
-      <div className="homepage">
+      <div>
         <Header />
         <Middle />
         <div className="footer">
@@ -115,7 +115,7 @@ class SignIn extends Component {
 
       <div className="choose">
         <Link to="/signUpPage">注册</Link>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <Link to="/forget">忘记密码</Link>
+        <Link to="/forgetPage">忘记密码</Link>
       </div>
       <center>
         <Link to="/personPage">
