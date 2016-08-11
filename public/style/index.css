@@ -1,12 +1,8 @@
-<<<<<<< HEAD
 * {
   margin: 0;
   padding: 0;
 }
 
-body {
-  /*background: #0CF;*/
-=======
 #headerOfPersonPage {
   height: 50px;
   border: solid 2px darkgray;
@@ -43,5 +39,4 @@ body {
 
 #optionsModal{
   margin-left: 2%;
->>>>>>> 21c680776f7fa02b1ed813f65c6b285bd39febda
 }
