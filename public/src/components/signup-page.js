@@ -3,6 +3,56 @@ import {Link} from 'react-router';
 import Select from 'react-select';
 
 export default class SignUpPage extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      '_id':'',
+      name:'',
+      sex:'',
+      pw:'',
+      cfpw:'',
+      hobbies:[],
+      age:'',
+      city:''
+    }
+  }
+
+  handleId(event){
+    this.setState({'_id':event.target.value})
+  }
+
+  handleName(event){
+    this.setState({name:event.target.value})
+  }
+
+  handlePassword(event){
+    this.setState({pw:event.target.value})
+  }
+
+  confirmPassword(event){
+    this.setState({cfpw:event.target.value})
+  }
+
+  handleHobby(hobbies){
+    this.setState({hobbies:hobbies})
+  }
+
+  handleAge(age){
+    this.setState({age:age})
+  }
+
+  handleCity(city){
+    this.setState({city:city})
+  }
+
+  sendData(){
+    this.state.sex = $("input[name=sex]:checked").val();
+
+    $.post('/', this.state, (data)=>{
+    //  console.log(data);
+    })
+  }
+
   render() {
     return (
       <div id="signUpBackground" className="panel panel-body">
@@ -11,42 +61,42 @@ export default class SignUpPage extends Component {
 
           <div className="input-group">
             <span className="input-group-addon">手机号</span>
-            <input type="text" className="form-control"/>
+            <input type="text" className="form-control" onChange={this.handleId.bind(this, event)}/>
           </div>
           <br/>
           <div className="input-group">
             <span className="input-group-addon">昵称</span>
-            <input type="text" className="form-control"/>
+            <input type="text" className="form-control" onChange={this.handleName.bind(this, event)}/>
           </div>
           <br/>
           <div className="input-group">
             <span className="input-group-addon">性别</span>
-            <input id="signUpBoy" type="radio" name="sex"/>男
-            <input id="signUpGirl" type="radio" name="sex"/>女
+            <input id="signUpBoy" type="radio" name="sex" value='男'/>男
+            <input id="signUpGirl" type="radio" name="sex" value='女'/>女
           </div>
           <br/>
           <div className="input-group">
             <span className="input-group-addon">密码</span>
-            <input type="password" className="form-control"/>
+            <input type="password" className="form-control" onChange={this.handlePassword.bind(this, event)}/>
           </div>
           <br/>
           <div className="input-group">
             <span className="input-group-addon">确认密码</span>
-            <input type="password" className="form-control"/>
+            <input type="password" className="form-control" onChange={this.confirmPassword.bind(this, event)}/>
           </div>
           <br/>
-          <AgeSelectField/>
+          <AgeSelectField onChange={this.handleAge.bind(this)}/>
           <br/>
-          <HobbyMultiSelectField />
+          <HobbyMultiSelectField onChange={this.handleHobby.bind(this)}/>
           <br/>
-          <CitySelectField/>
+          <CitySelectField onChange={this.handleCity.bind(this)}/>
           <br/>
 
           <div className="col-lg-5 col-lg-offset-3">
             <Link to="/">返回</Link>
           </div>
           <div className="col-lg-offset-8">
-            <Link to="/personPage">注册</Link>
+            <Link to="/personPage" onClick={this.sendData.bind(this)}>注册</Link>
           </div>
         </div>
       </div>
@@ -64,8 +114,6 @@ class Header extends Component {
   }
 }
 
-
-
 export class HobbyMultiSelectField extends Component {
   constructor() {
     super();
@@ -73,10 +121,10 @@ export class HobbyMultiSelectField extends Component {
     {
       disabled: false,
       options: [
-        {label: '下棋', value: 'chess'},
-        {label: '打太极', value: 'taiji'},
-        {label: '打牌', value: 'cards'},
-        {label: '跳广场舞', value: 'dance'},
+        {label: '下棋', value: '下棋'},
+        {label: '打太极', value: '打太极'},
+        {label: '打牌', value: '打牌'},
+        {label: '跳广场舞', value: '跳广场舞'},
       ],
       hobbies: [],
     }
@@ -93,6 +141,7 @@ export class HobbyMultiSelectField extends Component {
 
   setHobbies(hobbies) {
     this.setState({hobbies});
+    this.props.onChange(hobbies);
   }
 }
 
@@ -106,13 +155,14 @@ export class CitySelectField extends Component {
 
   setCity(city) {
     this.setState({city});
+    this.props.onChange(city);
   }
 
   render() {
     const options = [
-      {label: '西安', city: 'basic'},
-      {label: '北京', city: 'premium'},
-      {label: '沈阳', city: 'pro'},
+      {label: '西安'},
+      {label: '北京'},
+      {label: '沈阳'},
     ];
     return <div className="input-group">
       <span className="input-group-addon">城市</span>
@@ -138,13 +188,14 @@ export class AgeSelectField extends Component {
 
   setAge(age) {
     this.setState({age});
+    this.props.onChange(age)
   }
 
   render() {
     const options = [
-      {label: '55~60', age: 'basic'},
-      {label: '60~65', age: 'premium'},
-      {label: '65~70', age: 'pro'}
+      {label: '55~60'},
+      {label: '60~65'},
+      {label: '65~70'}
     ];
     return <div className="input-group">
       <span className="input-group-addon">年龄段</span>
