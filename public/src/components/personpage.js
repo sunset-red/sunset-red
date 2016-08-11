@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {Link} from 'react-router';
 
+import {Hobbies, City, AgeSegment} from './select-options';
+
 export default class PersonPage extends Component {
   constructor() {
     super();
@@ -116,26 +118,13 @@ class OptionsToFind extends Component {
             请选择：
           </h4>
         </div>
-        <div className="col-sm-offset-1">
-          <form className="form-inline" role="form">
-            <div>
-              城市：
-              <input type="checkbox"/>上海
-              <input type="checkbox"/>北京
-            </div>
-            <div>
-              年龄段：
-              <input type="checkbox"/>55~60
-              <input type="checkbox"/>60~65
-              <input type="checkbox"/>65~70
-            </div>
-            <div>
-              兴趣爱好：
-              <input type="checkbox"/>运动
-              <input type="checkbox"/>下棋
-              <input type="checkbox"/>看书
-            </div>
-          </form>
+        <div>
+          <br/>
+          <Hobbies/>
+          <br/>
+          <City />
+          <br/>
+          <AgeSegment/>
         </div>
         <div className="modal-footer">
           <button type="button" className="btn btn-default"
@@ -149,4 +138,3 @@ class OptionsToFind extends Component {
     </div>
   }
 }
-
