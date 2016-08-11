@@ -13,8 +13,13 @@ export class Hobbies extends Component {
         {label: '打牌', value: 'cards'},
         {label: '跳广场舞', value: 'dance'},
       ],
-      hobbies: [],
+      hobbies: []
     }
+  }
+
+  setHobbies(hobbies) {
+    this.setState({hobbies});
+    this.props.getHoobies(hobbies);
   }
 
   render() {
@@ -24,10 +29,6 @@ export class Hobbies extends Component {
               placeholder="Select your favourite(s)" options={this.state.options}
               onChange={this.setHobbies.bind(this)}/>
     </div>
-  }
-
-  setHobbies(hobbies) {
-    this.setState({hobbies});
   }
 }
 
@@ -41,6 +42,7 @@ export class City extends Component {
 
   setCity(city) {
     this.setState({city});
+    this.props.getCity(city.label);
   }
 
   render() {
@@ -73,6 +75,7 @@ export class AgeSegment extends Component {
 
   setAge(age) {
     this.setState({age});
+    this.props.getAge(age.label);
   }
 
   render() {
