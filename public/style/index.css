@@ -1,9 +1,79 @@
-#name{
-  font-size: 30px;
-  font-family:Sans-serif;
-  font-color:#F2F2F2
+*{
+  margin: 0;
+  padding: 0;
+}
+#headerOfPersonPage {
+  height: 50px;
+  border: solid 2px darkgray;
 }
 
-#panel1{
-  background-image: url(background.jpg);
+#logo{
+  width: 40px;
+}
+
+#welcome {
+  margin-top: 10px;
+}
+
+#leftOfPersonPage {
+  border: solid 1px dimgray;
+  height: 500px;
+  margin-left: 20px;
+  margin-top: 50px;
+  margin-right: 120px;
+  text-align: center;
+}
+
+#footerOfPersonPage{
+  height: 20px;
+  margin-top: 55px;
+  background-color: grey;
+  text-align: center;
+}
+
+.pictureOfPersonPage{
+  height: 115px;
+  width: 100%;
+}
+
+#optionsModal{
+  margin-left: 2%;
+}
+
+#signUpBackground{
+  background-color: #F2F2F2;
+  width:100%;
+  height:640px;
+}
+#signUpPanel{
+  margin-top: 20px;
+}
+
+.signUpHeader {
+  background-color: #3a9d8c;
+  margin: 0 !important;
+  height: 80px;
+  padding: 15px 10px 10px;
+}
+
+.signUpHeader h1 {
+  margin: 0 !important;
+}
+
+.signUpHeader h1 small {
+color: #0DEADA;
+}
+
+.signUpLogo {
+  float: left;
+  width: 50px;
+  height: 50px;
+  border-radius: 45%;
+  margin: 0 20px;
+}
+#signUpBoy{
+  margin-left: 20px;
+}
+#signUpGirl{
+  margin-left: 23px;
 }
