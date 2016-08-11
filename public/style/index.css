@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 * {
   margin: 0;
   padding: 0;
@@ -5,4 +6,42 @@
 
 body {
   /*background: #0CF;*/
+=======
+#headerOfPersonPage {
+  height: 50px;
+  border: solid 2px darkgray;
+}
+
+#logo{
+  width: 40px;
+}
+
+#welcome {
+  margin-top: 10px;
+}
+
+#leftOfPersonPage {
+  border: solid 1px dimgray;
+  height: 500px;
+  margin-left: 20px;
+  margin-top: 50px;
+  margin-right: 120px;
+  text-align: center;
+}
+
+#footerOfPersonPage{
+  height: 20px;
+  margin-top: 55px;
+  background-color: grey;
+  text-align: center;
+}
+
+.pictureOfPersonPage{
+  height: 115px;
+  width: 100%;
+}
+
+#optionsModal{
+  margin-left: 2%;
+>>>>>>> 21c680776f7fa02b1ed813f65c6b285bd39febda
 }
