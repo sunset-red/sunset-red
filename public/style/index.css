@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 #headerOfPersonPage {
   height: 50px;
   border: solid 2px darkgray;
