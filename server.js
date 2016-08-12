@@ -8,7 +8,6 @@ function makeServer() {
   const app = express();
   const compiler = webpack(webpackConfig);
 
-
   const routers = require('./db');
   const selectData = require('./routes/find-person-message');
 
