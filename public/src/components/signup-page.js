@@ -25,7 +25,6 @@ export default class SignUpPage extends Component {
     if(event.key=='Enter' || event.key == 9){
       const regu = /^1\d{10}$/;
       const re = new RegExp(regu);
-      console.log(this.state._id+"wwwww")
       if(re.test(this.state._id)){
           $("input[id=nickname]").focus();
       }else{
@@ -70,7 +69,8 @@ export default class SignUpPage extends Component {
   }
 
   handleHobby(hobbies){
-    this.setState({hobbies:hobbies})
+    const hobbys = hobbies.split(',');
+    this.setState({hobbies:hobbys})
   }
 
   handleAge(age){
@@ -200,7 +200,6 @@ export class CitySelectField extends Component {
 
   setCity(city) {
     this.setState({city});
-    console.log(city)
     this.props.onChange(city.label);
   }
 
