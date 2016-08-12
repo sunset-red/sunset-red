@@ -4,7 +4,7 @@ describe('loading express', function () {
   var server;
 
   beforeEach(function () {
-    server = require('../server')();
+  server = require('../server')();
   });
 
   afterEach(function (done) {
@@ -12,16 +12,15 @@ describe('loading express', function () {
   });
 
   it('responds to /', function testSlash(done) {
-    this.timeout(15000);
-    request(server)
-      .get('/')
-      .expect(200, done);
-  });
+          request(server)
+              .get('/')
+              .expect(200)
+              .end(done);
+      });
 
   it('404 everything else', function testPath(done) {
-    this.timeout(15000);
-    request(server)
-      .get('/foo/bar')
-      .expect(404, done);
-  });
+          request(server)
+              .get('/foo/bar')
+              .expect(404, done);
+      });
 });
