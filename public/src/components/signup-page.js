@@ -22,9 +22,10 @@ export default class SignUpPage extends Component {
   }
 
   verifyId(event){
-    if(event.key=='Enter' || event.keycode==9){
+    if(event.key=='Enter' || event.key == 9){
       const regu = /^1\d{10}$/;
       const re = new RegExp(regu);
+      console.log(this.state._id+"wwwww")
       if(re.test(this.state._id)){
           $("input[id=nickname]").focus();
       }else{
@@ -42,7 +43,7 @@ export default class SignUpPage extends Component {
   }
 
   verifyPw(event){
-    if(event.key=='Enter' || event.keycode==9){
+    if(event.key=='Enter' || event.key == 9){
       const regu = /^[0-9A-Za-z]{6,20}$/;
       const re = new RegExp(regu);
 
@@ -58,7 +59,7 @@ export default class SignUpPage extends Component {
     this.setState({cfpw:event.target.value})
   }
   confirmPw(event){
-    if(event.key=='Enter'|| event.keycode==9){
+    if(event.key=='Enter'){
       if(this.state.cfpw === this.state.password){
         $("input[id=age]").focus();
       }else{

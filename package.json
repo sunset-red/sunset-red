@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node server.js",
+    "test": "mocha",
+    "start": "babel-node program.js",
     "webpack": "webpack"
   },
   "author": "",
@@ -17,6 +17,7 @@
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "express": "^4.14.0",
+    "mocha": "^3.0.2",
     "mongodb": "^2.2.5",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
@@ -36,6 +37,7 @@
     "mongodb": "^2.2.5",
     "react-select": "^1.0.0-beta14",
     "style-loader": "^0.13.1",
+    "supertest": "^2.0.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
