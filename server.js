@@ -8,9 +8,6 @@ const app = express();
 const compiler = webpack(webpackConfig);
 
 const routers = require('./db');
-// const bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -19,8 +16,6 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-
-app.use(require('webpack-hot-middleware')(compiler));
 
 app.use(express.static('public'));
 

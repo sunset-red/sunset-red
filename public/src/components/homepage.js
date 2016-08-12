@@ -9,14 +9,9 @@ export default class HomePage extends Component {
     }
   }
 
-
-  // loginIn() {
-  //   this.setState({isSame: !this.state.isSame});
-  // }
-
   onJudge(loginId, password) {
 
-    $.post('/login', {'barcode': loginId}, (data)=> {
+    $.post('/login', {'_id': loginId}, (data)=> {
       if (loginId === '') {
         alert('请输入帐号');
       } else if (!password) {
@@ -27,7 +22,6 @@ export default class HomePage extends Component {
       } else if (data[0].name != password) {
         alert('密码错误');
       } else {
-
         this.setState({isSame: true});
       }
     });
