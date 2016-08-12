@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 var url = 'mongodb://localhost:27017/sunset';
 
-Router.post('/', (req, res)=>{
+Router.post('/signup', (req, res)=>{
     const insertData = function (db, callback) {
       db.collection('sunsetcol').insert(req.body, function (err, result) {
         if (err) {

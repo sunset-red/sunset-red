@@ -93,7 +93,7 @@ export default class SignUpPage extends Component {
       city:this.state.city
     }
 
-    $.post('/', messages, (data)=>{
+    $.post('/signup', messages, (data)=>{
     //  console.log(data);
     })
   }
