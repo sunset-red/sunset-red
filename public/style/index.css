@@ -9,7 +9,7 @@
   background-color: #3a9d8c;
 }
 
-#logo{
+#logo {
   width: 40px;
 }
 
@@ -26,18 +26,79 @@
   text-align: center;
 }
 
-#footerOfPersonPage{
+#showFriends {
+  border: solid 1px #3a9d8c;
+  margin-top: 5%;
+  height: 450px;
+}
+
+#listFriends{
+  border: solid 1px darkgrey;
+  height: 150px;
+  width: 150px;
+  margin-top: 10px;
+  margin-left: 20px;
+  display: inline;
+}
+
+#buttonOfAttention{
+  margin-top: 100px;
+  text-align: center;
+}
+
+#footerOfPersonPage {
   height: 20px;
   margin-top: 55px;
   background-color: #3a9d8c;
   text-align: center;
 }
 
-.pictureOfPersonPage{
+.pictureOfPersonPage {
   height: 115px;
   width: 100%;
 }
 
-#optionsModal{
+#optionsModal {
   margin-left: 2%;
+}
+
+#signUpBackground {
+  background-color: #F2F2F2;
+  width: 100%;
+  height: 640px;
+}
+
+#signUpPanel {
+  margin-top: 20px;
+}
+
+.signUpHeader {
+  background-color: #3a9d8c;
+  margin: 0 !important;
+  height: 80px;
+  padding: 15px 10px 10px;
+}
+
+.signUpHeader h1 {
+  margin: 0 !important;
+}
+
+.signUpHeader h1 small {
+  color: #0DEADA;
+}
+
+.signUpLogo {
+  float: left;
+  width: 50px;
+  height: 50px;
+  border-radius: 45%;
+  margin: 0 20px;
+}
+
+#signUpBoy {
+  margin-left: 20px;
+}
+
+#signUpGirl {
+  margin-left: 23px;
 }

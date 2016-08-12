@@ -2,12 +2,17 @@ import React, {Component} from "react";
 import {Link} from 'react-router';
 
 import {Hobbies, City, AgeSegment} from './select-options';
+import ShowFriends from './show-friends';
 
 export default class PersonPage extends Component {
   constructor() {
     super();
     this.state = {
-      isWantToFindFriends: false
+      isWantToFindFriends: false,
+      friends: [],
+      hobbies: [],
+      city: '',
+      age: ''
     }
   }
 
@@ -15,12 +20,36 @@ export default class PersonPage extends Component {
     this.setState({isWantToFindFriends: !this.state.isWantToFindFriends});
   }
 
+  getHoobies(hobbies) {
+    this.setState({hobbies});
+  }
+
+  getCity(city) {
+    this.setState({city});
+  }
+
+  getAge(age) {
+    this.setState({age});
+  }
+
+  confirmSelect() {
+    const hobbies = this.state.hobbies;
+    const city = this.state.city;
+    const age = this.state.age;
+
+    $.post('/friends', {hobbies, city, age}, (friends) => {
+      this.setState({friends})
+    })
+  }
+
   render() {
     return (
       <div>
         <Header />
-        <Mainer isWantToFindFriends={this.state.isWantToFindFriends}
-                findFriends={this.findFriends.bind(this)}/>
+        <Mainer isWantToFindFriends={this.state.isWantToFindFriends} findFriends={this.findFriends.bind(this)}
+                getHoobies={this.getHoobies.bind(this)} getCity={this.getCity.bind(this)}
+                getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
+                friends={this.state.friends}/>
         <Footer />
       </div>
     )
@@ -50,7 +79,10 @@ class Mainer extends Component {
   render() {
     return <div>
       <Left findFriends={this.props.findFriends}/>
-      <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}/>
+      <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
+             getHoobies={this.props.getHoobies} getCity={this.props.getCity}
+             getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
+             friends={this.props.friends}/>
     </div>
   }
 }
@@ -86,9 +118,16 @@ class Left extends Component {
 
 class Right extends Component {
   render() {
-    return <div className="col-lg-8">
+    return <div className="col-lg-6" id="showFriends">
       <div className={this.props.isWantToFindFriends ? '' : 'hidden'}>
-        <OptionsToFind findFriends={this.props.findFriends}/>
+        <OptionsToFind findFriends={this.props.findFriends} getHoobies={this.props.getHoobies}
+                       getCity={this.props.getCity}
+                       getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}/>
+      </div>
+      <div className={this.props.isWantToFindFriends ? 'hidden' : ''}>
+        <div className="col-lg-offset-1 col-lg-8">
+          <ShowFriends friends={this.props.friends}/>
+        </div>
       </div>
     </div>
   }
@@ -107,6 +146,11 @@ class OptionsToFind extends Component {
     this.props.findFriends();
   }
 
+  confirmSelect() {
+    this.props.confirmSelect();
+    this.closeModal();
+  }
+
   render() {
     return <div className="modal-dialog" id="optionsModal">
       <div className="modal-content">
@@ -120,17 +164,17 @@ class OptionsToFind extends Component {
         </div>
         <div>
           <br/>
-          <Hobbies/>
+          <Hobbies getHoobies={this.props.getHoobies}/>
           <br/>
-          <City />
+          <City getCity={this.props.getCity}/>
           <br/>
-          <AgeSegment/>
+          <AgeSegment getAge={this.props.getAge}/>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-default"
-                  data-dismiss="modal">关闭
+          <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.closeModal.bind(this)}>
+            关闭
           </button>
-          <button type="button" className="btn btn-primary">
+          <button type="button" className="btn btn-primary" onClick={this.confirmSelect.bind(this)}>
             确定
           </button>
         </div>
