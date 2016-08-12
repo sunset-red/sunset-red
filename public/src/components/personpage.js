@@ -2,12 +2,14 @@ import React, {Component} from "react";
 import {Link} from 'react-router';
 
 import {Hobbies, City, AgeSegment} from './select-options';
+import ShowFriends from './show-friends';
 
 export default class PersonPage extends Component {
   constructor() {
     super();
     this.state = {
       isWantToFindFriends: false,
+      friends: [],
       hobbies: [],
       city: '',
       age: ''
@@ -35,8 +37,8 @@ export default class PersonPage extends Component {
     const city = this.state.city;
     const age = this.state.age;
 
-    $.post('/hobbies', {hobbies,city,age}, (data) => {
-      console.log(data);
+    $.post('/friends', {hobbies, city, age}, (friends) => {
+      this.setState({friends})
     })
   }
 
@@ -46,7 +48,8 @@ export default class PersonPage extends Component {
         <Header />
         <Mainer isWantToFindFriends={this.state.isWantToFindFriends} findFriends={this.findFriends.bind(this)}
                 getHoobies={this.getHoobies.bind(this)} getCity={this.getCity.bind(this)}
-                getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}/>
+                getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
+                friends={this.state.friends}/>
         <Footer />
       </div>
     )
@@ -78,7 +81,8 @@ class Mainer extends Component {
       <Left findFriends={this.props.findFriends}/>
       <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
              getHoobies={this.props.getHoobies} getCity={this.props.getCity}
-             getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}/>
+             getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
+             friends={this.props.friends}/>
     </div>
   }
 }
@@ -114,11 +118,16 @@ class Left extends Component {
 
 class Right extends Component {
   render() {
-    return <div className="col-lg-8">
+    return <div className="col-lg-6" id="showFriends">
       <div className={this.props.isWantToFindFriends ? '' : 'hidden'}>
         <OptionsToFind findFriends={this.props.findFriends} getHoobies={this.props.getHoobies}
                        getCity={this.props.getCity}
                        getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}/>
+      </div>
+      <div className={this.props.isWantToFindFriends ? 'hidden' : ''}>
+        <div className="col-lg-offset-1 col-lg-8">
+          <ShowFriends friends={this.props.friends}/>
+        </div>
       </div>
     </div>
   }

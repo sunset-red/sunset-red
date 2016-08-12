@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.post('/hobbies', function (req, res) {
+app.post('/friends', function (req, res) {
   console.log(req.body);
   const findAllItems = function (db, callback) {
 
@@ -28,7 +28,6 @@ app.post('/hobbies', function (req, res) {
       throw err;
     }
     findAllItems(db, function (result) {
-      // console.log(result);
       res.send(result);
       db.close();
     })
