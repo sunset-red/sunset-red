@@ -3,53 +3,97 @@ import {Link} from 'react-router';
 import Select from 'react-select';
 
 export default class SignUpPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      '_id':'',
-      name:'',
-      sex:'',
-      pw:'',
-      cfpw:'',
-      hobbies:[],
-      age:'',
-      city:''
+      '_id': '',
+      name: '',
+      sex: '',
+      pw: '',
+      cfpw: '',
+      hobbies: [],
+      age: '',
+      city: ''
     }
   }
 
-  handleId(event){
-    this.setState({'_id':event.target.value})
+  handleId(event) {
+    this.setState({'_id': event.target.value})
   }
 
-  handleName(event){
-    this.setState({name:event.target.value})
+  handleName(event) {
+    this.setState({name: event.target.value})
   }
 
-  handlePassword(event){
-    this.setState({pw:event.target.value})
+  handlePassword(event) {
+    this.setState({pw: event.target.value});
   }
 
-  confirmPassword(event){
-    this.setState({cfpw:event.target.value})
+  verifyId(event) {
+    if (event.key == 'Enter') {
+      const regu = /^1\d{10}$/;
+      const re = new RegExp(regu);
+      console.log(this.state._id + "wwwww")
+      if (re.test(this.state._id)) {
+        $("input[id=nickname]").focus();
+      } else {
+        alert('请填写有效的11位手机号码');
+      }
+    }
   }
 
-  handleHobby(hobbies){
-    this.setState({hobbies:hobbies})
+  handleName(event) {
+    this.setState({name: event.target.value})
   }
 
-  handleAge(age){
-    this.setState({age:age})
+  handlePassword(event) {
+    this.setState({password: event.target.value})
   }
 
-  handleCity(city){
-    this.setState({city:city})
+  verifyPw(event) {
+    if (event.key == 'Enter') {
+      const regu = /^[0-9A-Za-z]{6,20}$/;
+      const re = new RegExp(regu);
+
+      if (re.test(this.state.password)) {
+        $("input[id=cfpw]").focus();
+      } else {
+        alert('请输入6-20个数字、字母(区分大小写)');
+      }
+    }
   }
 
-  sendData(){
+  confirmPassword(event) {
+    this.setState({cfpw: event.target.value})
+  }
+
+  confirmPw(event) {
+    if (event.key == 'Enter') {
+      if (this.state.cfpw === this.state.password) {
+        $("input[id=age]").focus();
+      } else {
+        alert("确认密码和密码不符合");
+        $("input[id=cfpw]").val('');
+      }
+    }
+  }
+
+  handleHobby(hobbies) {
+    this.setState({hobbies: hobbies})
+  }
+
+  handleAge(age) {
+    this.setState({age: age})
+  }
+
+  handleCity(city) {
+    this.setState({city: city})
+  }
+
+  sendData() {
     this.state.sex = $("input[name=sex]:checked").val();
-
-    $.post('/', this.state, (data)=>{
-    //  console.log(data);
+    $.post('/', this.state, (data)=> {
+      //  console.log(data);
     })
   }
 
@@ -61,12 +105,13 @@ export default class SignUpPage extends Component {
 
           <div className="input-group">
             <span className="input-group-addon">手机号</span>
-            <input type="text" className="form-control" onChange={this.handleId.bind(this, event)}/>
+            <input type="text" id='phoneNumber' className="form-control" onChange={this.handleId.bind(this)}
+                   onKeyPress={this.verifyId.bind(this)}/>
           </div>
           <br/>
           <div className="input-group">
             <span className="input-group-addon">昵称</span>
-            <input type="text" className="form-control" onChange={this.handleName.bind(this, event)}/>
+            <input type="text" id='nickname' className="form-control" onChange={this.handleName.bind(this, event)}/>
           </div>
           <br/>
           <div className="input-group">
@@ -77,19 +122,21 @@ export default class SignUpPage extends Component {
           <br/>
           <div className="input-group">
             <span className="input-group-addon">密码</span>
-            <input type="password" className="form-control" onChange={this.handlePassword.bind(this, event)}/>
+            <input type="password" id='pw' className="form-control" onChange={this.handlePassword.bind(this, event)}
+                   onKeyPress={this.verifyPw.bind(this)}/>
           </div>
           <br/>
           <div className="input-group">
             <span className="input-group-addon">确认密码</span>
-            <input type="password" className="form-control" onChange={this.confirmPassword.bind(this, event)}/>
+            <input type="password" id='cfpw' className="form-control"
+                   onChange={this.confirmPassword.bind(this, event)} onKeyPress={this.confirmPw.bind(this)}/>
           </div>
           <br/>
-          <AgeSelectField onChange={this.handleAge.bind(this)}/>
+          <AgeSelectField id='age' onChange={this.handleAge.bind(this)}/>
           <br/>
-          <HobbyMultiSelectField onChange={this.handleHobby.bind(this)}/>
+          <HobbyMultiSelectField id='hobby' onChange={this.handleHobby.bind(this)}/>
           <br/>
-          <CitySelectField onChange={this.handleCity.bind(this)}/>
+          <CitySelectField id='city' onChange={this.handleCity.bind(this)}/>
           <br/>
 
           <div className="col-lg-5 col-lg-offset-3">
@@ -103,6 +150,7 @@ export default class SignUpPage extends Component {
     )
   }
 }
+
 class Header extends Component {
   render() {
     return <div className="signUpHeader">
@@ -126,22 +174,20 @@ export class HobbyMultiSelectField extends Component {
         {label: '打牌', value: '打牌'},
         {label: '跳广场舞', value: '跳广场舞'},
       ],
-      hobbies: [],
-    }
+      value: []
+    };
+  }
+
+  handleSelectChange(value) {
+    this.setState({value});
   }
 
   render() {
-    return <div className="input-group">
-      <span className="input-group-addon">兴趣</span>
-      <Select multi simpleValue disabled={this.state.disabled} value={this.state.hobbies}
+    return (<div className='section'>
+      <Select multi-simpleValue disabled={this.state.disabled} value={this.state.value}
               placeholder="Select your favourite(s)" options={this.state.options}
-              onChange={this.setHobbies.bind(this)}/>
-    </div>
-  }
-
-  setHobbies(hobbies) {
-    this.setState({hobbies});
-    this.props.onChange(hobbies);
+              onChange={this.handleSelectChange}/>
+    </div>)
   }
 }
 
@@ -155,7 +201,8 @@ export class CitySelectField extends Component {
 
   setCity(city) {
     this.setState({city});
-    this.props.onChange(city);
+    console.log(city)
+    this.props.onChange(city.label);
   }
 
   render() {
@@ -177,7 +224,6 @@ export class CitySelectField extends Component {
     </div>
   }
 }
-
 export class AgeSelectField extends Component {
   constructor() {
     super();
@@ -188,7 +234,7 @@ export class AgeSelectField extends Component {
 
   setAge(age) {
     this.setState({age});
-    this.props.onChange(age)
+    this.props.onChange(age.label)
   }
 
   render() {

@@ -8,6 +8,9 @@ function makeServer() {
   const app = express();
   const compiler = webpack(webpackConfig);
 
+
+  const routers = require('./db');
+
   app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
     publicPath: webpackConfig.output.publicPath
@@ -16,16 +19,16 @@ function makeServer() {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: false}));
 
-  app.use(require('webpack-hot-middleware')(compiler));
-
   app.use(express.static('public'));
 
+  app.post('/login', routers.findItem);
   app.use('/', signup);
   app.use(require('./routes/find-friends'));
 
   const server = app.listen(3000, function () {
     var port = server.address().port;
-    console.log('Example app listening at port %s', port);  });
+    console.log('Example app listening at port %s', port);
+  });
 
   return server;
 }
