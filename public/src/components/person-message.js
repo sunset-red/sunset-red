@@ -7,7 +7,7 @@ export default class MessageTable extends Component {
     return (
       <div>
         <div>
-          <table width="65%">
+          <table width="95%">
             <tbody>
             <tr>
               <td>姓名</td>
