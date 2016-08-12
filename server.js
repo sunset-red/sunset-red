@@ -9,6 +9,7 @@ function makeServer() {
   const compiler = webpack(webpackConfig);
 
   const routers = require('./db');
+  const selectData = require('./routes/find-person-message');
 
   app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
@@ -21,6 +22,7 @@ function makeServer() {
   app.use(express.static('public'));
 
   app.post('/login', routers.findItem);
+  app.post('/data', selectData.save);
   app.use('/', signup);
   app.use(require('./routes/find-friends'));
 
