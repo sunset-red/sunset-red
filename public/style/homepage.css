@@ -134,3 +134,8 @@
   line-height: 30px;
   background-color: #3a9d8c;
 }
+
+.rightshow{
+border: 1px solid transparent;
+margin-top: 50px;
+}
