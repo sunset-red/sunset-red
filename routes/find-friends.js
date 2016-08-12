@@ -13,7 +13,7 @@ app.post('/friends', function (req, res) {
   console.log(req.body);
   const findAllItems = function (db, callback) {
 
-    const collection = db.collection('col');
+    const collection = db.collection('sunsetcol');
 
     collection.find(req.body, {'_id': 0}).toArray(function (err, result) {
       if (err) {

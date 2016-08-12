@@ -14,7 +14,6 @@ export default class PersonPage extends Component {
       hobbies: [],
       city: '',
       age: '',
-      // name: "Amy",
       _id: "12345678900",
       message: {name: '', sex: "", age: "0", city: "", hobbies: []},
       show: "app.index"
@@ -51,7 +50,7 @@ export default class PersonPage extends Component {
   }
 
   selectmessage() {
-    $.post('/data', {_id: this.state._id}, function (n) {
+    $.post('/message', {_id: this.state._id}, function (n) {
       this.setState({message: n, show: "app.message"})
     }.bind(this));
   }
