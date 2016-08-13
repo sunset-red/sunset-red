@@ -19,7 +19,7 @@ export default class HomePage extends Component {
       }
       else if (data.length === 0) {
         alert('帐号不存在');
-      } else if (data[0].name != password) {
+      } else if (data[0].password != password) {
         alert('密码错误');
       } else {
         this.setState({isSame: true});
