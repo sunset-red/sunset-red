@@ -10,28 +10,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.post('/friends', function (req, res) {
-  console.log(req.body);
-  const findAllItems = function (db, callback) {
 
+  mongoClient.connect(dbConnectStr, (err, db)=> {
     const collection = db.collection('sunsetcol');
-
-    collection.find(req.body, {'_id': 0}).toArray(function (err, result) {
-      if (err) {
-        throw err;
-      }
-      callback(result);
-    });
-  };
-
-  mongoClient.connect(dbConnectStr, function (err, db) {
-    if (err) {
-      throw err;
-    }
-    findAllItems(db, function (result) {
+    collection.find(req.body).toArray(function (err, result) {
       res.send(result);
-      db.close();
-    })
-  });
+    });
+
+    db.close();
+  })
 });
 
 module.exports = app;

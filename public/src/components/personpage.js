@@ -60,7 +60,7 @@ export default class PersonPage extends Component {
       <div>
         <Header />
         <Mainer isWantToFindFriends={this.state.isWantToFindFriends} findFriends={this.findFriends.bind(this)}
-                getHoobies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
+                getHobbies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
                 friends={this.state.friends} message={this.state.message} show={this.state.show}
                 onMessage={this.selectMessage.bind(this)}/>
@@ -94,7 +94,7 @@ class Mainer extends Component {
     return <div>
       <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage}/>
       <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
-             getHoobies={this.props.getHobbies} getCity={this.props.getCity}
+             getHobbies={this.props.getHobbies} getCity={this.props.getCity}
              getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
              friends={this.props.friends}
              message={this.props.message} show={this.props.show}/>
@@ -139,7 +139,7 @@ class Right extends Component {
   render() {
     return <div className="col-lg-6 rightshow" id="showFriends">
       <div className={this.props.isWantToFindFriends ? '' : 'hidden'}>
-        <OptionsToFind findFriends={this.props.findFriends} getHoobies={this.props.getHobbies}
+        <OptionsToFind findFriends={this.props.findFriends} getHobbies={this.props.getHobbies}
                        getCity={this.props.getCity}
                        getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}/>
       </div>
