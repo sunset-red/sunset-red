@@ -8,7 +8,7 @@ function makeServer() {
   const app = express();
   const compiler = webpack(webpackConfig);
 
-  const routers = require('./db');
+  const loginIn = require('./routes/login-in');
   const selectData = require('./routes/find-person-message');
 
   app.use(require('webpack-dev-middleware')(compiler, {
@@ -21,8 +21,8 @@ function makeServer() {
 
   app.use(express.static('public'));
 
-  app.post('/login', routers.findItem);
   app.post('/message', selectData.save);
+  app.use(loginIn);
   app.use('/', signup);
   app.use(require('./routes/find-friends'));
 
