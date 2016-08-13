@@ -16,7 +16,7 @@ export default class PersonPage extends Component {
       age: '',
       _id: "12345678900",
       message: {name: '', sex: "", age: "0", city: "", hobbies: []},
-      show: "app.index"
+      show: ""
     }
   }
 
