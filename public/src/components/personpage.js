@@ -27,7 +27,8 @@ export default class PersonPage extends Component {
     });
   }
 
-  getHobbies(hobbies) {
+  getHobbies(hobby) {
+    const hobbies = hobby.split(',');
     this.setState({hobbies});
   }
 
@@ -44,9 +45,16 @@ export default class PersonPage extends Component {
     const city = this.state.city;
     const age = this.state.age;
 
-    $.post('/friends', {hobbies, city, age}, (friends) => {
-      this.setState({friends})
-    })
+    $.ajax({
+      type: "POST",
+      url: '/friends',
+      data: JSON.stringify({hobbies, city, age}),
+      contentType: "application/json",
+      dataType: 'json',
+      success: function (friends) {
+        this.setState({friends});
+      }.bind(this)
+    });
   }
 
   selectMessage() {
@@ -143,7 +151,8 @@ class Right extends Component {
                        getCity={this.props.getCity}
                        getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}/>
       </div>
-      <div className={this.props.isWantToFindFriends ? 'hidden' : ''}>
+      {/*<div className={this.props.isWantToFindFriends ? 'hidden' : ''}>*/}
+      <div className={this.props.show === "find-friends" ? "" : 'hidden'}>
         <div className="col-lg-offset-1 col-lg-8">
           <ShowFriends friends={this.props.friends}/>
         </div>
@@ -190,7 +199,7 @@ class OptionsToFind extends Component {
         </div>
         <div>
           <br/>
-          <Hobbies getHoobies={this.props.getHobbies}/>
+          <Hobbies getHobbies={this.props.getHobbies}/>
           <br/>
           <City getCity={this.props.getCity}/>
           <br/>
