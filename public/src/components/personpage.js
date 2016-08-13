@@ -151,11 +151,8 @@ class Right extends Component {
                        getCity={this.props.getCity}
                        getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}/>
       </div>
-      {/*<div className={this.props.isWantToFindFriends ? 'hidden' : ''}>*/}
       <div className={this.props.show === "find-friends" ? "" : 'hidden'}>
-        <div className="col-lg-offset-1 col-lg-8">
-          <ShowFriends friends={this.props.friends}/>
-        </div>
+        <ShowFriends friends={this.props.friends}/>
       </div>
       <div className={this.props.show === "person-message" ? "" : 'hidden'}>
         <span>基本资料</span>
