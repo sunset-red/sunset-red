@@ -10,3 +10,8 @@ notifications:
 notifications:
   webhooks: https://hook.bearychat.com/=bw70L/travis/42cd9717f5ea6feaf54410bfaba0a007
 
+
+  notifications:
+    webhooks: https://hook.bearychat.com/=bw70L/travis/d312303ad92942af308002fa8d61d0d8
+
+
