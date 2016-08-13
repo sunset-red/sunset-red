@@ -19,7 +19,7 @@ export class Hobbies extends Component {
 
   setHobbies(hobbies) {
     this.setState({hobbies});
-    this.props.getHoobies(hobbies);
+    this.props.getHobbies(hobbies);
   }
 
   render() {

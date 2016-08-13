@@ -16,18 +16,18 @@ export default class PersonPage extends Component {
       age: '',
       _id: "12345678900",
       message: {name: '', sex: "", age: "0", city: "", hobbies: []},
-      show: "app.index"
+      show: ""
     }
   }
 
   findFriends() {
     this.setState({
       isWantToFindFriends: !this.state.isWantToFindFriends,
-      show: "app.findfriends"
+      show: "find-friends"
     });
   }
 
-  getHoobies(hobbies) {
+  getHobbies(hobbies) {
     this.setState({hobbies});
   }
 
@@ -49,9 +49,9 @@ export default class PersonPage extends Component {
     })
   }
 
-  selectmessage() {
+  selectMessage() {
     $.post('/message', {_id: this.state._id}, function (n) {
-      this.setState({message: n, show: "app.message"})
+      this.setState({message: n, show: "person-message"})
     }.bind(this));
   }
 
@@ -60,10 +60,10 @@ export default class PersonPage extends Component {
       <div>
         <Header />
         <Mainer isWantToFindFriends={this.state.isWantToFindFriends} findFriends={this.findFriends.bind(this)}
-                getHoobies={this.getHoobies.bind(this)} getCity={this.getCity.bind(this)}
+                getHoobies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
                 friends={this.state.friends} message={this.state.message} show={this.state.show}
-                onmessage={this.selectmessage.bind(this)}/>
+                onMessage={this.selectMessage.bind(this)}/>
         <Footer />
       </div>
     )
@@ -92,9 +92,9 @@ class Header extends Component {
 class Mainer extends Component {
   render() {
     return <div>
-      <Left findFriends={this.props.findFriends} onmessage={this.props.onmessage}/>
+      <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage}/>
       <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
-             getHoobies={this.props.getHoobies} getCity={this.props.getCity}
+             getHoobies={this.props.getHobbies} getCity={this.props.getCity}
              getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
              friends={this.props.friends}
              message={this.props.message} show={this.props.show}/>
@@ -107,8 +107,8 @@ class Left extends Component {
     this.props.findFriends();
   }
 
-  selmessage() {
-    this.props.onmessage();
+  selectMessage() {
+    this.props.onMessage();
   }
 
   render() {
@@ -122,7 +122,7 @@ class Left extends Component {
             <li className="list-group-item"><a onClick={this.toFindFriends.bind(this)}> 推荐好友</a></li>
             <li className="list-group-item"><a>我的好友</a></li>
             <li className="list-group-item"><a>我的动态</a></li>
-            <li className="list-group-item"><a onClick={this.selmessage.bind(this)}>个人信息</a></li>
+            <li className="list-group-item"><a onClick={this.selectMessage.bind(this)}>个人信息</a></li>
             <li className="list-group-item"><a>修改信息</a></li>
             <li className="list-group-item"><a>留言板</a></li>
           </ul>
@@ -139,7 +139,7 @@ class Right extends Component {
   render() {
     return <div className="col-lg-6 rightshow" id="showFriends">
       <div className={this.props.isWantToFindFriends ? '' : 'hidden'}>
-        <OptionsToFind findFriends={this.props.findFriends} getHoobies={this.props.getHoobies}
+        <OptionsToFind findFriends={this.props.findFriends} getHoobies={this.props.getHobbies}
                        getCity={this.props.getCity}
                        getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}/>
       </div>
@@ -148,7 +148,7 @@ class Right extends Component {
           <ShowFriends friends={this.props.friends}/>
         </div>
       </div>
-      <div className={this.props.show === "app.message" ? "" : 'hidden'}>
+      <div className={this.props.show === "person-message" ? "" : 'hidden'}>
         <span>基本资料</span>
         <hr/>
         <div className="col-md-5">
@@ -190,7 +190,7 @@ class OptionsToFind extends Component {
         </div>
         <div>
           <br/>
-          <Hobbies getHoobies={this.props.getHoobies}/>
+          <Hobbies getHoobies={this.props.getHobbies}/>
           <br/>
           <City getCity={this.props.getCity}/>
           <br/>

@@ -3,7 +3,7 @@ import React, {Component} from "react";
 export default class MessageTable extends Component {
 
   render() {
-    const hobbies = Array.isArray(this.props.message.hobbies)?this.props.message.hobbies.join("\t"):"";
+    const hobbies = Array.isArray(this.props.message.hobbies) ? this.props.message.hobbies.join("\t") : "";
     return (
       <div>
         <div>

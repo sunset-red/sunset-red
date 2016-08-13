@@ -9,7 +9,7 @@ function makeServer() {
   const compiler = webpack(webpackConfig);
 
   const loginIn = require('./routes/login-in');
-  const selectData = require('./routes/find-person-message');
+  const personMessage = require('./routes/find-person-message');
 
   app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
@@ -20,9 +20,8 @@ function makeServer() {
   app.use(bodyParser.urlencoded({extended: false}));
 
   app.use(express.static('public'));
-
-  app.post('/message', selectData.save);
   app.use(loginIn);
+  app.use(personMessage);
   app.use('/', signup);
   app.use(require('./routes/find-friends'));
 

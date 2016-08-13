@@ -1,5 +1,4 @@
 var express = require('express');
-var app = new express();
 var Router = express.Router();
 
 const MongoClient = require('mongodb').MongoClient;
