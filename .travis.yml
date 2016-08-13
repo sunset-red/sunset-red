@@ -3,3 +3,6 @@ node_js:
   - "6"
 notifications:
   webhooks: https://hook.bearychat.com/=bw70L/travis/8ea82c122876d0244d16ae0f31387dc0
+
+notifications:
+  webhooks: https://hook.bearychat.com/=bw70L/travis/42cd9717f5ea6feaf54410bfaba0a007
