@@ -57,6 +57,13 @@ export default class PersonPage extends Component {
     });
   }
 
+  addFriends(index) {
+    const attentionFriend = this.state.friends[index].name;
+    $.post('/attention', {name: 'jack', attentionFriend}, function (message) {
+      alert(message);
+    });
+  }
+
   selectMessage() {
     $.post('/message', {_id: this.state._id}, function (n) {
       this.setState({message: n, show: "person-message"})
@@ -71,7 +78,7 @@ export default class PersonPage extends Component {
                 getHobbies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
                 friends={this.state.friends} message={this.state.message} show={this.state.show}
-                onMessage={this.selectMessage.bind(this)}/>
+                onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}/>
         <Footer />
       </div>
     )
@@ -104,7 +111,7 @@ class Mainer extends Component {
       <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
              getHobbies={this.props.getHobbies} getCity={this.props.getCity}
              getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
-             friends={this.props.friends}
+             friends={this.props.friends} addFriends={this.props.addFriends}
              message={this.props.message} show={this.props.show}/>
     </div>
   }
@@ -152,7 +159,7 @@ class Right extends Component {
                        getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}/>
       </div>
       <div className={this.props.show === "find-friends" ? "" : 'hidden'}>
-        <ShowFriends friends={this.props.friends}/>
+        <ShowFriends friends={this.props.friends} addFriends={this.props.addFriends}/>
       </div>
       <div className={this.props.show === "person-message" ? "" : 'hidden'}>
         <span>基本资料</span>
