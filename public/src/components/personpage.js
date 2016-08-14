@@ -61,8 +61,9 @@ export default class PersonPage extends Component {
   }
 
   addFriends(index) {
+    const userName = this.state.userName;
     const attentionFriend = this.state.friends[index].name;
-    $.post('/attention', {name: 'jack', attentionFriend}, function (message) {
+    $.post('/attention/' + userName, {attentionFriend}, function (message) {
       alert(message);
     });
   }

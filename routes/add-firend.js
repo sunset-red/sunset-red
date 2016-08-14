@@ -9,9 +9,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.post('/attention', function (req, res) {
+app.post('/attention/:userName', function (req, res) {
 
-  const name = req.body.name;
+  const name = req.params.userName;
   const attentionFriend = req.body.attentionFriend;
 
   mongoClient.connect(dbConnectStr, (err, db)=> {
