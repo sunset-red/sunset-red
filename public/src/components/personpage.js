@@ -4,6 +4,7 @@ import {Link} from 'react-router';
 import {Hobbies, City, AgeSegment} from './select-options';
 import ShowFriends from './show-friends';
 import MessageTable from './person-message';
+import ShowMyFriends from './show-my-friends';
 
 export default class PersonPage extends Component {
   constructor() {
@@ -70,8 +71,9 @@ export default class PersonPage extends Component {
     const userName = this.state.userName;
 
     $.get('/myFriends/' + userName, (myFriends) => {
-      this.setState({myFriends}, function () {
-        console.log(this.state.myFriends);
+      this.setState({
+        myFriends,
+        show: "show-myFriends"
       });
     })
   }
@@ -178,6 +180,9 @@ class Right extends Component {
       </div>
       <div className={this.props.show === "find-friends" ? "" : 'hidden'}>
         <ShowFriends friends={this.props.friends} addFriends={this.props.addFriends}/>
+      </div>
+      <div className={this.props.show === "show-myFriends" ? "" : 'hidden'}>
+        <ShowMyFriends />
       </div>
       <div className={this.props.show === "person-message" ? "" : 'hidden'}>
         <span>基本资料</span>
