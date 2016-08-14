@@ -21,14 +21,10 @@ app.post('/friends', function (req, res) {
 
     collection.find({city, age}).toArray(function (err, result) {
       result.forEach(element => {
-        if (hobbies.every(hobby => element.hobbies.includes(hobby))){
+        if (hobbies.every(hobby => element.hobbies.includes(hobby))) {
           friends.push(element);
         }
-          //   if (!friends.some(friend => element === friend)) {
-          //     friends.push(element);
-          //   }
-          // }
-        })
+      });
       res.send(friends);
     });
 
