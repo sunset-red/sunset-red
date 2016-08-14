@@ -8,10 +8,10 @@ export class Hobbies extends Component {
     {
       disabled: false,
       options: [
-        {label: '下棋', value: 'chess'},
-        {label: '打太极', value: 'taiji'},
-        {label: '打牌', value: 'cards'},
-        {label: '跳广场舞', value: 'dance'},
+        {label: '下棋', value: '下棋'},
+        {label: '打太极', value: '打太极'},
+        {label: '打牌', value: '打牌'},
+        {label: '跳广场舞', value: '跳广场舞'},
       ],
       hobbies: []
     }
@@ -26,7 +26,7 @@ export class Hobbies extends Component {
     return <div className="input-group">
       <span className="input-group-addon">兴趣</span>
       <Select multi simpleValue disabled={this.state.disabled} value={this.state.hobbies}
-              placeholder="Select your favourite(s)" options={this.state.options}
+              placeholder="请选择您的兴趣爱好" options={this.state.options}
               onChange={this.setHobbies.bind(this)}/>
     </div>
   }
@@ -36,30 +36,30 @@ export class City extends Component {
   constructor() {
     super();
     this.state = {
-      city: ''
+      value: ''
     }
   }
 
-  setCity(city) {
-    this.setState({city});
-    this.props.getCity(city.label);
+  setCity(value) {
+    this.setState({value});
+    this.props.getCity(value.city);
   }
 
   render() {
     const options = [
-      {label: '西安', city: 'basic'},
-      {label: '北京', city: 'premium'},
-      {label: '沈阳', city: 'pro'},
+      {label: '西安', city: '西安'},
+      {label: '北京', city: '北京'},
+      {label: '沈阳', city: '沈阳'},
     ];
     return <div className="input-group">
       <span className="input-group-addon">城市</span>
       {this.props.label}
       <Select
-        placeholder="Select your province"
+        placeholder="请选择城市"
         options={options}
         optionRenderer={this.renderOption}
         onChange={this.setCity.bind(this)}
-        value={this.state.city}
+        value={this.state.value}
       />
     </div>
   }
@@ -69,30 +69,30 @@ export class AgeSegment extends Component {
   constructor() {
     super();
     this.state = {
-      age: ''
+      value: ''
     }
   }
 
-  setAge(age) {
-    this.setState({age});
-    this.props.getAge(age.label);
+  setAge(value) {
+    this.setState({value});
+    this.props.getAge(value.age);
   }
 
   render() {
     const options = [
-      {label: '55~60', age: 'basic'},
-      {label: '60~65', age: 'premium'},
-      {label: '65~70', age: 'pro'}
+      {label: '55~60', age: '55~60'},
+      {label: '60~65', age: '60~65'},
+      {label: '65~70', age: '65~70'}
     ];
     return <div className="input-group">
       <span className="input-group-addon">年龄段</span>
       {this.props.label}
       <Select
-        placeholder="Select age range"
+        placeholder="请选择年龄范围"
         options={options}
         optionRenderer={this.renderOption}
         onChange={this.setAge.bind(this)}
-        value={this.state.age}
+        value={this.state.value}
       />
     </div>
   }
