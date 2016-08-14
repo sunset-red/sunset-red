@@ -13,12 +13,27 @@ app.post('/friends', function (req, res) {
 
   mongoClient.connect(dbConnectStr, (err, db)=> {
     const collection = db.collection('sunsetcol');
-    collection.find(req.body).toArray(function (err, result) {
-      res.send(result);
+    const hobbies = req.body.hobbies;
+    const city = req.body.city;
+    const age = req.body.age;
+
+    let friends = [];
+
+    collection.find({city, age}).toArray(function (err, result) {
+      result.forEach(element => {
+        hobbies.every(hobby => {
+          if (element.hobbies.includes(hobby)) {
+            if (!friends.some(friend => element === friend)) {
+              friends.push(element);
+            }
+          }
+        })
+      });
+      res.send(friends);
     });
 
     db.close();
-  })
+  });
 });
 
 module.exports = app;
