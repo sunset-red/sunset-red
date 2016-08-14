@@ -93,7 +93,7 @@ export default class PersonPage extends Component {
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
                 friends={this.state.friends} message={this.state.message} show={this.state.show}
                 onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}
-                showMyFriends={this.showMyFriends.bind(this)}/>
+                showMyFriends={this.showMyFriends.bind(this)} myFriends={this.state.myFriends}/>
         <Footer />
       </div>
     )
@@ -128,7 +128,8 @@ class Mainer extends Component {
              getHobbies={this.props.getHobbies} getCity={this.props.getCity}
              getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
              friends={this.props.friends} addFriends={this.props.addFriends}
-             message={this.props.message} show={this.props.show}/>
+             message={this.props.message} show={this.props.show}
+             myFriends={this.props.myFriends}/>
     </div>
   }
 }
@@ -182,7 +183,7 @@ class Right extends Component {
         <ShowFriends friends={this.props.friends} addFriends={this.props.addFriends}/>
       </div>
       <div className={this.props.show === "show-myFriends" ? "" : 'hidden'}>
-        <ShowMyFriends />
+        <ShowMyFriends myFriends={this.props.myFriends}/>
       </div>
       <div className={this.props.show === "person-message" ? "" : 'hidden'}>
         <span>基本资料</span>
