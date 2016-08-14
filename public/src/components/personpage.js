@@ -26,7 +26,7 @@ export default class PersonPage extends Component {
   findFriends() {
     this.setState({
       isWantToFindFriends: !this.state.isWantToFindFriends,
-      show: "find-friends"
+      show: ""
     });
   }
 
@@ -55,7 +55,10 @@ export default class PersonPage extends Component {
       contentType: "application/json",
       dataType: 'json',
       success: function (friends) {
-        this.setState({friends});
+        this.setState({
+          friends,
+          show: "find-friends"
+        });
       }.bind(this)
     });
   }
