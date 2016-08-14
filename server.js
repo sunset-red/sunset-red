@@ -7,6 +7,7 @@ function makeServer() {
   const signup = require('./routes/sign-up.js');
   const findFriends = require('./routes/find-friends');
   const addFriends = require('./routes/add-firend');
+  const showMyFriends = require('./routes/show-my-friends');
 
   const app = express();
   const compiler = webpack(webpackConfig);
@@ -29,6 +30,7 @@ function makeServer() {
   app.use('/', signup);
   app.use('/', findFriends);
   app.use('/', addFriends);
+  app.use('/', showMyFriends);
 
   const server = app.listen(3000, function () {
     var port = server.address().port;

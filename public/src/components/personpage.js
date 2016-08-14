@@ -9,6 +9,8 @@ export default class PersonPage extends Component {
   constructor() {
     super();
     this.state = {
+      userName: 'jack',
+      myFriends: [],
       isWantToFindFriends: false,
       friends: [],
       hobbies: [],
@@ -64,6 +66,16 @@ export default class PersonPage extends Component {
     });
   }
 
+  showMyFriends() {
+    const userName = this.state.userName;
+
+    $.get('/myFriends/' + userName, (myFriends) => {
+      this.setState({myFriends}, function () {
+        console.log(this.state.myFriends);
+      });
+    })
+  }
+
   selectMessage() {
     $.post('/message', {_id: this.state._id}, function (n) {
       this.setState({message: n, show: "person-message"})
@@ -78,7 +90,8 @@ export default class PersonPage extends Component {
                 getHobbies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
                 friends={this.state.friends} message={this.state.message} show={this.state.show}
-                onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}/>
+                onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}
+                showMyFriends={this.showMyFriends.bind(this)}/>
         <Footer />
       </div>
     )
@@ -107,7 +120,8 @@ class Header extends Component {
 class Mainer extends Component {
   render() {
     return <div>
-      <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage}/>
+      <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage}
+            showMyFriends={this.props.showMyFriends}/>
       <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
              getHobbies={this.props.getHobbies} getCity={this.props.getCity}
              getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
@@ -120,6 +134,10 @@ class Mainer extends Component {
 class Left extends Component {
   toFindFriends() {
     this.props.findFriends();
+  }
+
+  showMyFriends() {
+    this.props.showMyFriends();
   }
 
   selectMessage() {
@@ -135,7 +153,7 @@ class Left extends Component {
         <div>
           <ul className="list-group">
             <li className="list-group-item"><a onClick={this.toFindFriends.bind(this)}> 推荐好友</a></li>
-            <li className="list-group-item"><a>我的好友</a></li>
+            <li className="list-group-item"><a onClick={this.showMyFriends.bind(this)}>我的好友</a></li>
             <li className="list-group-item"><a>我的动态</a></li>
             <li className="list-group-item"><a onClick={this.selectMessage.bind(this)}>个人信息</a></li>
             <li className="list-group-item"><a>修改信息</a></li>
