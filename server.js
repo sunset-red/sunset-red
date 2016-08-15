@@ -2,8 +2,15 @@ function makeServer() {
   const express = require('express');
   const webpack = require('webpack');
   const webpackConfig = require('./webpack.config');
-  const signup = require('./routes/sign-up.js');
   const bodyParser = require('body-parser');
+
+  const signup = require('./routes/sign-up.js');
+  const findFriends = require('./routes/find-friends');
+  const addFriends = require('./routes/add-firend');
+  const showMyFriends = require('./routes/show-my-friends');
+  const publishSays = require('./routes/publish-says');
+  const leaveWords=require('./routes/leave-words');
+  const leaveMessage=require('./routes/show-leave-message');
 
   const app = express();
   const compiler = webpack(webpackConfig);
@@ -20,12 +27,18 @@ function makeServer() {
   app.use(bodyParser.urlencoded({extended: false}));
 
   app.use(express.static('public'));
+
+  app.use(publishSays);
   app.use(loginIn);
   app.use(personMessage);
   app.use('/', signup);
-  app.use(require('./routes/find-friends'));
-  app.use(require('./routes/leave-words'));
-  app.use(require('./routes/show-leave-message'));
+
+  app.use('/', leaveWords);
+  app.use('/', leaveMessage);
+
+  app.use('/', findFriends);
+  app.use('/', addFriends);
+  app.use('/', showMyFriends);
 
   const server = app.listen(3000, function () {
     var port = server.address().port;

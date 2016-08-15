@@ -9,23 +9,20 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.post('/friends', function (req, res) {
+app.post('/attention/:userName', function (req, res) {
+
+  const name = req.params.userName;
+  const attentionFriend = req.body.attentionFriend;
 
   mongoClient.connect(dbConnectStr, (err, db)=> {
     const collection = db.collection('sunsetcol');
-    const hobbies = req.body.hobbies;
-    const city = req.body.city;
-    const age = req.body.age;
 
-    let friends = [];
-
-    collection.find({city, age}).toArray(function (err, result) {
-      result.forEach(element => {
-        if (hobbies.every(hobby => element.hobbies.includes(hobby))) {
-          friends.push(element);
-        }
-      });
-      res.send(friends);
+    collection.updateOne({name}, {$addToSet: {friends: attentionFriend}}, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        res.send('关注成功！');
+      }
     });
 
     db.close();

@@ -9,23 +9,18 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.post('/friends', function (req, res) {
+app.get('/myFriends/:userName', function (req, res) {
 
+  const userName = req.params.userName;
   mongoClient.connect(dbConnectStr, (err, db)=> {
     const collection = db.collection('sunsetcol');
-    const hobbies = req.body.hobbies;
-    const city = req.body.city;
-    const age = req.body.age;
 
-    let friends = [];
-
-    collection.find({city, age}).toArray(function (err, result) {
-      result.forEach(element => {
-        if (hobbies.every(hobby => element.hobbies.includes(hobby))) {
-          friends.push(element);
-        }
-      });
-      res.send(friends);
+    collection.findOne({name:userName}, function (err, result) {
+      if (err) {
+        throw err;
+      } else {
+        res.send(result.friends);
+      }
     });
 
     db.close();

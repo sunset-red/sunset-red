@@ -1,11 +1,11 @@
 import React, {Component} from "react";
-import {Link} from "react-router";
 
-export default class forgetPage extends Component {
+export  default  class ForgetPage extends React.Component {
+
   render() {
     return (
       <div>
-        forgetpage
+        forget
       </div>
     )
   }

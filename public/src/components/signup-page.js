@@ -91,11 +91,15 @@ export default class SignUpPage extends Component {
       hobbies:this.state.hobbies,
       age:this.state.age,
       city:this.state.city
-    }
+    };
 
-    $.post('/signup', messages, (data)=>{
-    //  console.log(data);
-    })
+    $.ajax({
+      type:'POST',
+      url:'/signup',
+      contentType:'application/json',
+      data:JSON.stringify(messages),
+      dataType:'json'
+    });
   }
 
   render() {
