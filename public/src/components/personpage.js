@@ -20,7 +20,7 @@ export default class PersonPage extends Component {
       hobbies: [],
       city: '',
       age: '',
-      _id: cookie.load('userId'),
+      // _id: cookie.load('userId'),
       message: {name: '', sex: "", age: "0", city: "", hobbies: []},
       show: "",
       mysay: []
@@ -29,11 +29,11 @@ export default class PersonPage extends Component {
 
   relase(newValue) {
     if (newValue) {
-      $.post('/relase', {_id: this.state._id, says: newValue}, (data)=> {
+      $.post('/relase', {_id: this.props._id, says: newValue}, (data)=> {
         this.setState({mysay: data, show: 'show_myhouse'});
       });
     } else {
-      $.post('/relase', {_id: this.state._id}, (data)=> {
+      $.post('/relase', {_id: this.props._id}, (data)=> {
         this.setState({mysay: data, show: 'show_myhouse'});
       });
     }
@@ -81,7 +81,7 @@ export default class PersonPage extends Component {
   }
 
   addFriends(index) {
-    const _id = this.state._id;
+    const _id = this.props._id;
     const attentionFriend = this.state.friends[index].name;
     $.post('/attention/' + _id, {attentionFriend}, function (message) {
       alert(message);
@@ -89,7 +89,7 @@ export default class PersonPage extends Component {
   }
 
   showMyFriends() {
-    const _id = this.state._id;
+    const _id = this.props._id;
 
     $.get('/myFriends/' + _id, (myFriends) => {
       this.setState({
@@ -100,7 +100,7 @@ export default class PersonPage extends Component {
   }
 
   selectMessage() {
-    $.post('/message', {_id: this.state.userId}, function (n) {
+    $.post('/message', {_id: this.props._id}, function (n) {
       this.setState({message: n, show: "person-message"})
     }.bind(this));
   }
@@ -112,7 +112,7 @@ export default class PersonPage extends Component {
   render() {
     return (
       <div>
-        <Header />
+        <Header _id={this.props._id}/>
         <Mainer isWantToFindFriends={this.state.isWantToFindFriends} findFriends={this.findFriends.bind(this)}
                 getHobbies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
@@ -137,7 +137,7 @@ class Header extends Component {
       </div>
       <div className="col-lg-8">
         <div className="col-lg-offset-9" id="welcome">
-          <span>欢迎,Tom</span>&nbsp;&nbsp;
+          <span>欢迎,</span>&nbsp;&nbsp;
           <Link to="/">退出</Link>/
           <Link to="/">注销</Link>
         </div>
@@ -262,7 +262,9 @@ class OptionsToFind extends Component {
     return <div className="modal-dialog" id="optionsModal">
       <div className="modal-content">
         <div className="modal-header">
-          <button type="button" className="close" data-dismiss="modal" aria-hidden="true" onClick={this.closeModal.bind(this)}>×</button>
+          <button type="button" className="close" data-dismiss="modal" aria-hidden="true"
+                  onClick={this.closeModal.bind(this)}>×
+          </button>
           <h4 className="modal-title" id="myModalLabel">
             请选择：
           </h4>
