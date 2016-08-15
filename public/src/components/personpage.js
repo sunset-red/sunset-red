@@ -7,6 +7,7 @@ import MessageTable from './person-message';
 import MessageBoard from './message-board'
 import ShowMyFriends from './show-my-friends';
 import {Published, Myhouse} from './myhouse';
+import ModifyPersonMessage from './modify-person-message'
 
 import cookie from 'react-cookie';
 
@@ -108,6 +109,9 @@ export default class PersonPage extends Component {
   leaveWords() {
     this.setState({show: "leave-words"});
   }
+  modifyPersonMessage(){
+    this.setState({show:'modify-person-message'})
+  }
 
   render() {
     return (
@@ -120,7 +124,8 @@ export default class PersonPage extends Component {
                 leaveWords={this.leaveWords.bind(this)}
                 onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}
                 showMyFriends={this.showMyFriends.bind(this)} myFriends={this.state.myFriends}
-                says={this.state.mysay} onRelase={this.relase.bind(this)}/>
+                says={this.state.mysay} onRelase={this.relase.bind(this)}
+                onPersonMessage={this.modifyPersonMessage.bind(this)}/>
         <Footer />
       </div>
     )
@@ -147,10 +152,10 @@ class Header extends Component {
 }
 
 class Mainer extends Component {
-  render() {
+    render() {
     return <div>
       <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage} onLeaveWords={this.props.leaveWords}
-            showMyFriends={this.props.showMyFriends} onRelase={this.props.onRelase}/>
+            showMyFriends={this.props.showMyFriends} onRelase={this.props.onRelase} onPersonMessage={this.props.onPersonMessage}/>
 
       <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
              getHobbies={this.props.getHobbies} getCity={this.props.getCity}
@@ -183,6 +188,10 @@ class Left extends Component {
     this.props.onLeaveWords();
   }
 
+  modifyPersonMessage(){
+    this.props.onPersonMessage();
+  }
+
   render() {
     return <div className="col-lg-4">
       <div id="leftOfPersonPage">
@@ -195,7 +204,7 @@ class Left extends Component {
             <li className="list-group-item"><a onClick={this.showMyFriends.bind(this)}>我的好友</a></li>
             <li className="list-group-item"><a onClick={this.relase.bind(this)}>我的动态</a></li>
             <li className="list-group-item"><a onClick={this.selectMessage.bind(this)}>个人信息</a></li>
-            <li className="list-group-item"><a>修改信息</a></li>
+            <li className="list-group-item"><a onClick={this.modifyPersonMessage.bind(this)}>修改信息</a></li>
             <li className="list-group-item"><a onClick={this.toLeaveWords.bind(this)}>留言板</a></li>
           </ul>
         </div>
@@ -236,6 +245,9 @@ class Right extends Component {
         <Published onRelase={this.props.onRelase}/>
         <Myhouse says={this.props.says}/>
       </div>
+        <div className={this.props.show === "modify-person-message" ? "" : 'hidden'}>
+          <ModifyPersonMessage/>
+        </div>
     </div>
   }
 }
