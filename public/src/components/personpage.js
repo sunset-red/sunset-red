@@ -7,19 +7,19 @@ import MessageTable from './person-message';
 import ShowMyFriends from './show-my-friends';
 import {Published, Myhouse} from './myhouse';
 
+import cookie from 'react-cookie';
 
 export default class PersonPage extends Component {
   constructor() {
     super();
     this.state = {
-      userName: 'jack',
       myFriends: [],
       isWantToFindFriends: false,
       friends: [],
       hobbies: [],
       city: '',
       age: '',
-      _id: "188",
+      _id: cookie.load('userId'),
       message: {name: '', sex: "", age: "0", city: "", hobbies: []},
       show: "",
       mysay: []
@@ -80,17 +80,17 @@ export default class PersonPage extends Component {
   }
 
   addFriends(index) {
-    const userName = this.state.userName;
+    const _id = this.state._id;
     const attentionFriend = this.state.friends[index].name;
-    $.post('/attention/' + userName, {attentionFriend}, function (message) {
+    $.post('/attention/' + _id, {attentionFriend}, function (message) {
       alert(message);
     });
   }
 
   showMyFriends() {
-    const userName = this.state.userName;
+    const _id = this.state._id;
 
-    $.get('/myFriends/' + userName, (myFriends) => {
+    $.get('/myFriends/' + _id, (myFriends) => {
       this.setState({
         myFriends,
         show: "show-myFriends"
@@ -99,7 +99,7 @@ export default class PersonPage extends Component {
   }
 
   selectMessage() {
-    $.post('/message', {_id: this.state._id}, function (n) {
+    $.post('/message', {_id: this.state.userId}, function (n) {
       this.setState({message: n, show: "person-message"})
     }.bind(this));
   }

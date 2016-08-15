@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {Link} from "react-router";
 
+import cookie from 'react-cookie';
+
 export default class HomePage extends Component {
   constructor() {
     super();
@@ -25,6 +27,8 @@ export default class HomePage extends Component {
         this.setState({isSame: true});
       }
     });
+
+    cookie.save('userId', loginId, {path: '/'});
   }
 
   render() {
