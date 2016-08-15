@@ -10,38 +10,35 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 var url = 'mongodb://localhost:27017/sunset';
 
+Router.post('/passwordVerify', (req, res)=>{
+  MongoClient.connect(url, (err, db)=> {
+    const collection = db.collection('sunsetcol');
+    collection.find(req.body).toArray(function (err, result) {
+      res.send(result);
+      db.close();
+    });
+  })
+});
+
+Router.post('/nameVerify', (req, res)=>{
+  MongoClient.connect(url, (err, db)=> {
+    const collection = db.collection('sunsetcol');
+    collection.find(req.body).toArray(function (err, result) {
+      res.send(result);
+      db.close();
+    });
+  })
+});
+
 Router.post('/signup', (req, res)=>{
-    const insertData = function (db, callback) {
-      db.collection('sunsetcol').insert(req.body, function (err, result) {
-        if (err) {
-          console.log('Error:' + err);
-          return;
-        }
-        callback(result);
-      });
-    };
-
-    // const selectData = function (db, callback) {
-    // db.collection('mytable').find(req.body).toArray(function (err, result) {
-    // if (err) {
-    //   console.log('Error:' + err);
-    //   return;
-    // }
-    // callback(result);
-//  });
-
-
-    MongoClient.connect(url, function (err, db) {
-      console.log("连接成功!");
-      insertData(db, function (result) {
-        console.log("添加成功!");
-        db.close();
-      });
-
-    //   selectData(db, function (result) {
-    //   db.close();
-    //   res.json(result).end();
-    // });
-     });
-})
+  MongoClient.connect(url, (err, db)=> {
+    const collection = db.collection('sunsetcol');
+    collection.insert(req.body,function (err, result) {
+      if(err){
+        console.log(err);
+      }
+      db.close();
+    });
+  });
+});
 module.exports = Router;

@@ -8,7 +8,6 @@ import PersonPage from './components/personpage';
 import SignUpPage from './components/signup-page';
 import ForgetPage from './components/forgetPage';
 
-
 ReactDOM.render(
   <Router history={hashHistory}>
     <Route path='/' component={App}>
@@ -16,7 +15,6 @@ ReactDOM.render(
       <Route path='personPage' component={PersonPage}/>
       <Route path='signUpPage' component={SignUpPage}/>
       <Route path='forgetPage' component={ForgetPage}/>
-
     </Route>
   </Router>
   , document.getElementById("app")

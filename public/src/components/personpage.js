@@ -4,6 +4,7 @@ import {Link} from 'react-router';
 import {Hobbies, City, AgeSegment} from './select-options';
 import ShowFriends from './show-friends';
 import MessageTable from './person-message';
+import MessageBoard from './message-board'
 import ShowMyFriends from './show-my-friends';
 import {Published, Myhouse} from './myhouse';
 
@@ -104,6 +105,10 @@ export default class PersonPage extends Component {
     }.bind(this));
   }
 
+  leaveWords() {
+    this.setState({show: "leave-words"});
+  }
+
   render() {
     return (
       <div>
@@ -112,6 +117,7 @@ export default class PersonPage extends Component {
                 getHobbies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
                 friends={this.state.friends} message={this.state.message} show={this.state.show}
+                leaveWords={this.leaveWords.bind(this)}
                 onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}
                 showMyFriends={this.showMyFriends.bind(this)} myFriends={this.state.myFriends}
                 says={this.state.mysay} onRelase={this.relase.bind(this)}/>
@@ -143,8 +149,9 @@ class Header extends Component {
 class Mainer extends Component {
   render() {
     return <div>
-      <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage}
+      <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage} onLeaveWords={this.props.leaveWords}
             showMyFriends={this.props.showMyFriends} onRelase={this.props.onRelase}/>
+
       <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
              getHobbies={this.props.getHobbies} getCity={this.props.getCity}
              getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
@@ -172,6 +179,10 @@ class Left extends Component {
     this.props.onMessage();
   }
 
+  toLeaveWords() {
+    this.props.onLeaveWords();
+  }
+
   render() {
     return <div className="col-lg-4">
       <div id="leftOfPersonPage">
@@ -185,7 +196,7 @@ class Left extends Component {
             <li className="list-group-item"><a onClick={this.relase.bind(this)}>我的动态</a></li>
             <li className="list-group-item"><a onClick={this.selectMessage.bind(this)}>个人信息</a></li>
             <li className="list-group-item"><a>修改信息</a></li>
-            <li className="list-group-item"><a>留言板</a></li>
+            <li className="list-group-item"><a onClick={this.toLeaveWords.bind(this)}>留言板</a></li>
           </ul>
         </div>
         <div>
@@ -211,7 +222,6 @@ class Right extends Component {
       <div className={this.props.show === "show-myFriends" ? "" : 'hidden'}>
         <ShowMyFriends myFriends={this.props.myFriends}/>
       </div>
-
       <div className={this.props.show === "person-message" ? "" : 'hidden'}>
         <span>基本资料</span>
         <hr/>
@@ -219,7 +229,9 @@ class Right extends Component {
           <MessageTable message={this.props.message} show={this.props.show}/>
         </div>
       </div>
-
+      <div className={this.props.show === "leave-words" ? "" : 'hidden'}>
+        <MessageBoard />
+      </div>
       <div className={this.props.show === "show_myhouse" ? "" : 'hidden'}>
         <Published onRelase={this.props.onRelase}/>
         <Myhouse says={this.props.says}/>
@@ -250,9 +262,7 @@ class OptionsToFind extends Component {
     return <div className="modal-dialog" id="optionsModal">
       <div className="modal-content">
         <div className="modal-header">
-          <button type="button" className="close" data-dismiss="modal"
-                  aria-hidden="true" onClick={this.closeModal.bind(this)}>×
-          </button>
+          <button type="button" className="close" data-dismiss="modal" aria-hidden="true" onClick={this.closeModal.bind(this)}>×</button>
           <h4 className="modal-title" id="myModalLabel">
             请选择：
           </h4>
