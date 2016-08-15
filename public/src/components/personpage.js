@@ -9,8 +9,6 @@ import ShowMyFriends from './show-my-friends';
 import {Published, Myhouse} from './myhouse';
 import ModifyPersonMessage from './modify-person-message'
 
-import cookie from 'react-cookie';
-
 export default class PersonPage extends Component {
   constructor() {
     super();
@@ -21,7 +19,6 @@ export default class PersonPage extends Component {
       hobbies: [],
       city: '',
       age: '',
-      _id: cookie.load('userId'),
       message: {name: '', sex: "", age: "0", city: "", hobbies: []},
       show: "",
       mysay: []
@@ -30,16 +27,15 @@ export default class PersonPage extends Component {
 
   relase(newValue) {
     if (newValue) {
-      $.post('/relase', {_id: this.state._id, says: newValue}, (data)=> {
+      $.post('/relase', {_id: this.props._id, says: newValue}, (data)=> {
         this.setState({mysay: data, show: 'show_myhouse'});
       });
     } else {
-      $.post('/relase', {_id: this.state._id}, (data)=> {
+      $.post('/relase', {_id: this.props._id}, (data)=> {
         this.setState({mysay: data, show: 'show_myhouse'});
       });
     }
   }
-
 
   findFriends() {
     this.setState({
@@ -82,15 +78,15 @@ export default class PersonPage extends Component {
   }
 
   addFriends(index) {
-    const _id = this.state._id;
-    const attentionFriend = this.state.friends[index].name;
+    const _id = this.props._id;
+    const attentionFriend = this.state.friends[index];
     $.post('/attention/' + _id, {attentionFriend}, function (message) {
       alert(message);
     });
   }
 
   showMyFriends() {
-    const _id = this.state._id;
+    const _id = this.props._id;
 
     $.get('/myFriends/' + _id, (myFriends) => {
       this.setState({
@@ -101,7 +97,7 @@ export default class PersonPage extends Component {
   }
 
   selectMessage() {
-    $.post('/message', {_id: this.state.userId}, function (n) {
+    $.post('/message', {_id: this.props._id}, function (n) {
       this.setState({message: n, show: "person-message"})
     }.bind(this));
   }
@@ -116,7 +112,7 @@ export default class PersonPage extends Component {
   render() {
     return (
       <div>
-        <Header />
+        <Header _id={this.props._id} name={this.props.name}/>
         <Mainer isWantToFindFriends={this.state.isWantToFindFriends} findFriends={this.findFriends.bind(this)}
                 getHobbies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
@@ -142,9 +138,8 @@ class Header extends Component {
       </div>
       <div className="col-lg-8">
         <div className="col-lg-offset-9" id="welcome">
-          <span>欢迎,Tom</span>&nbsp;&nbsp;
-          <Link to="/">退出</Link>/
-          <Link to="/">注销</Link>
+          <span>欢迎, <em>{this.props.name}</em></span>&nbsp;&nbsp;
+          <Link to="/">退出登录</Link>
         </div>
       </div>
     </div>
@@ -274,7 +269,9 @@ class OptionsToFind extends Component {
     return <div className="modal-dialog" id="optionsModal">
       <div className="modal-content">
         <div className="modal-header">
-          <button type="button" className="close" data-dismiss="modal" aria-hidden="true" onClick={this.closeModal.bind(this)}>×</button>
+          <button type="button" className="close" data-dismiss="modal" aria-hidden="true"
+                  onClick={this.closeModal.bind(this)}>×
+          </button>
           <h4 className="modal-title" id="myModalLabel">
             请选择：
           </h4>
