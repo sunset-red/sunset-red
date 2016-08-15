@@ -137,7 +137,7 @@ class Header extends Component {
       </div>
       <div className="col-lg-8">
         <div className="col-lg-offset-9" id="welcome">
-          <span>欢迎,{this.props.name}</span>&nbsp;&nbsp;
+          <span>欢迎, <em>{this.props.name}</em></span>&nbsp;&nbsp;
           <Link to="/">退出</Link>/
           <Link to="/">注销</Link>
         </div>
