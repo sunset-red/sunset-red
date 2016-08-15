@@ -17,7 +17,6 @@ export default class PersonPage extends Component {
       hobbies: [],
       city: '',
       age: '',
-      _id: "12345678900",
       message: {name: '', sex: "", age: "0", city: "", hobbies: []},
       show: "",
       userId: cookie.load('userId')
@@ -84,7 +83,7 @@ export default class PersonPage extends Component {
   }
 
   selectMessage() {
-    $.post('/message', {_id: this.state._id}, function (n) {
+    $.post('/message', {_id: this.state.userId}, function (n) {
       this.setState({message: n, show: "person-message"})
     }.bind(this));
   }
