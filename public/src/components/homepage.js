@@ -35,7 +35,7 @@ export default class HomePage extends Component {
     return (
       <div>
         <Header />
-        <Middle onJudge={this.onJudge.bind(this)} isSame={this.state.isSame}/>
+        <Middle onJudge={this.onJudge.bind(this)} isSame={this.state.isSame} getName={this.props.getName}/>
         <div className="footer">
           <center>版权所有@sunset</center>
         </div>
@@ -58,7 +58,8 @@ class Header extends Component {
 class Middle extends Component {
   render() {
     return <div className="middle">
-      <SignIn onJudge={this.props.onJudge.bind(this)} isSame={this.props.isSame}/>
+      <SignIn onJudge={this.props.onJudge.bind(this)} isSame={this.props.isSame}
+              getName={this.props.getName}/>
 
       <div id="carousel-example-generic" className="carousel slide" data-ride="carousel">
         <ol className="carousel-indicators">
@@ -131,6 +132,7 @@ class SignIn extends Component {
     const loginId = $('input[name=loginId]').val();
     const password = $('input[name = password]').val();
     this.props.onJudge(loginId, password);
+    this.props.getName();
   }
 
   render() {

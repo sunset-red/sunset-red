@@ -112,7 +112,7 @@ export default class PersonPage extends Component {
   render() {
     return (
       <div>
-        <Header _id={this.props._id}/>
+        <Header _id={this.props._id} name={this.props.name}/>
         <Mainer isWantToFindFriends={this.state.isWantToFindFriends} findFriends={this.findFriends.bind(this)}
                 getHobbies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
@@ -137,7 +137,7 @@ class Header extends Component {
       </div>
       <div className="col-lg-8">
         <div className="col-lg-offset-9" id="welcome">
-          <span>欢迎,</span>&nbsp;&nbsp;
+          <span>欢迎,{this.props.name}</span>&nbsp;&nbsp;
           <Link to="/">退出</Link>/
           <Link to="/">注销</Link>
         </div>
