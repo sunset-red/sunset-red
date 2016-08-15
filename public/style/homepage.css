@@ -1,17 +1,3 @@
-/*.homepage {*/
-/*background: url("../image/background.jpg") no-repeat;*/
-/*background-size:100% 100%;*/
-/*width: 100%;*/
-/*height: 100%;*/
-/*}*/
-
-/*.header {*/
-/*width: 100%;*/
-/*height: 110px;*/
-/*!*background-color: #9d9d9d;*!*/
-/*padding: 10px 20px;*/
-/*}*/
-
 .page-header {
   background-color: #3a9d8c;
   margin: 0 !important;
@@ -24,21 +10,8 @@
 }
 
 .page-header h1 small {
-  /*color: #0DEADA;*/
+  color: #0DEADA;
 }
-
-/*h1 {*/
-/*font-size: 50px;*/
-/*margin-top: -5px;*/
-/*}*/
-
-/*.title {*/
-/*float: left;*/
-/*color: #2e2041;*/
-/*width: 100%;*/
-/*height: 50px;*/
-/*margin: 10px 15px;*/
-/*}*/
 
 .logo {
   float: left;
@@ -57,8 +30,6 @@
 .middle {
   width: 100%;
   height: 583px;
-  /*background-color: #d1ffee;*/
-  /*padding: 20px;*/
   position: relative;
   margin-top: -1px;
 }
@@ -73,7 +44,7 @@
   height: 300px;
   padding: 80px;
   float: right;
-  border: solid 2px  #3a9d8c;
+  border: solid 2px #3a9d8c;
   position: absolute;
   right: 100px;
   top: 130px;
@@ -83,12 +54,12 @@
 .signin input {
   outline: none;
   height: 35px;
-  line-height:40px;
+  line-height: 40px;
   width: 200px;
   padding-left: 5px;
 }
 
-.signin button{
+.signin button {
   width: 200px;
   height: 40px;
   line-height: 40px;
@@ -135,7 +106,7 @@
   background-color: #3a9d8c;
 }
 
-.rightshow{
-border: 1px solid transparent;
-margin-top: 50px;
+.rightshow {
+  border: 1px solid transparent;
+  margin-top: 50px;
 }
