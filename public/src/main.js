@@ -16,7 +16,6 @@ ReactDOM.render(
       <Route path='personPage' component={PersonPage}/>
       <Route path='signUpPage' component={SignUpPage}/>
       <Route path='forgetPage' component={forgetPage}/>
-
     </Route>
   </Router>
   , document.getElementById("app")

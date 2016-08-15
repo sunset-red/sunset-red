@@ -24,6 +24,8 @@ function makeServer() {
   app.use(personMessage);
   app.use('/', signup);
   app.use(require('./routes/find-friends'));
+  app.use(require('./routes/leave-words'));
+  app.use(require('./routes/show-leave-message'));
 
   const server = app.listen(3000, function () {
     var port = server.address().port;
