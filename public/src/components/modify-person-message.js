@@ -1,36 +1,85 @@
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import {Link} from 'react-router';
 import Select from 'react-select';
 
 export default class ModifyPersonMessage extends Component {
-  render(){
+  constructor() {
+    super();
+    this.state = {
+      _id: '12345678900',
+      password: '',
+      authention: {
+        question: '',
+        answer: ''
+      },
+      hobbies: [],
+      city: '',
+      age: ''
+    };
+  }
+
+  setPassword(event) {
+    this.setState({password: event.target.value});
+  }
+
+  setQuestion(question) {
+    this.state.authention.question = question;
+  }
+
+  setAnswer(event) {
+    this.state.authention.answer = event.target.value;
+  }
+
+  setHobbies(hobbies) {
+    const hobbys = hobbies.split(',');
+    this.setState({hobbies: hobbys});
+  }
+
+  setCity(city) {
+    this.setState({city});
+  }
+
+  setAge(age) {
+    this.setState({age});
+  }
+
+  modifyMessage() {
+    $.ajax({
+      type: 'PUT',
+      url: '/modifyPersonMessage',
+      contentType: 'application/json',
+      data: JSON.stringify(this.state),
+      dataType: 'json'
+    });
+  }
+
+  render() {
     return (
       <div>
         <div className="input-group">
           <span className="input-group-addon">密码</span>
-          <input type="password" id='pw' className="form-control" />
+          <input type="password" id='pw' className="form-control" onChange={this.setPassword.bind(this)}/>
         </div>
         <br/>
-        <SecurityQuestion />
+        <SecurityQuestion onChange={this.setQuestion.bind(this)}/>
         <br/>
         <div className="input-group">
           <span className="input-group-addon">密保答案</span>
-          <input type="text" id='answer' className="form-control" />
+          <input type="text" id='answer' className="form-control" onChange={this.setAnswer.bind(this)}/>
         </div>
         <br/>
-        <Hobbies />
+        <Hobbies getHobbies={this.setHobbies.bind(this)}/>
         <br/>
-        <City />
+        <City getCity={this.setCity.bind(this)}/>
         <br/>
-        <AgeSegment />
+        <AgeSegment getAge={this.setAge.bind(this)}/>
         <br/>
 
         <button type="button" className="btn btn-default col-lg-5 col-lg-offset-3">
           <Link to="/personPage">取消修改</Link>
         </button>
-        <button type="button" className="btn btn-primary col-lg-offset-8">
-          <Link to="/personPage" >确认修改</Link>
-        </button>
+        <Link to="/personPage" onClick={this.modifyMessage.bind(this)}>确认修改</Link>
+
       </div>
     )
   }

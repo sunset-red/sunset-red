@@ -105,8 +105,9 @@ export default class PersonPage extends Component {
   leaveWords() {
     this.setState({show: "leave-words"});
   }
-  modifyPersonMessage(){
-    this.setState({show:'modify-person-message'})
+
+  modifyPersonMessage() {
+    this.setState({show: 'modify-person-message'})
   }
 
   render() {
@@ -147,10 +148,11 @@ class Header extends Component {
 }
 
 class Mainer extends Component {
-    render() {
+  render() {
     return <div>
       <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage} onLeaveWords={this.props.leaveWords}
-            showMyFriends={this.props.showMyFriends} onRelase={this.props.onRelase} onPersonMessage={this.props.onPersonMessage}/>
+            showMyFriends={this.props.showMyFriends} onRelase={this.props.onRelase}
+            onPersonMessage={this.props.onPersonMessage}/>
 
       <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
              getHobbies={this.props.getHobbies} getCity={this.props.getCity}
@@ -183,7 +185,7 @@ class Left extends Component {
     this.props.onLeaveWords();
   }
 
-  modifyPersonMessage(){
+  modifyPersonMessage() {
     this.props.onPersonMessage();
   }
 
@@ -240,9 +242,9 @@ class Right extends Component {
         <Published onRelase={this.props.onRelase}/>
         <Myhouse says={this.props.says}/>
       </div>
-        <div className={this.props.show === "modify-person-message" ? "" : 'hidden'}>
-          <ModifyPersonMessage/>
-        </div>
+      <div className={this.props.show === "modify-person-message" ? "" : 'hidden'}>
+        <ModifyPersonMessage/>
+      </div>
     </div>
   }
 }
