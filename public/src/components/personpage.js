@@ -5,6 +5,8 @@ import {Hobbies, City, AgeSegment} from './select-options';
 import ShowFriends from './show-friends';
 import MessageTable from './person-message';
 import ShowMyFriends from './show-my-friends';
+import {Published, Myhouse} from './myhouse';
+
 
 export default class PersonPage extends Component {
   constructor() {
@@ -17,11 +19,25 @@ export default class PersonPage extends Component {
       hobbies: [],
       city: '',
       age: '',
-      _id: "12345678900",
+      _id: "188",
       message: {name: '', sex: "", age: "0", city: "", hobbies: []},
-      show: ""
+      show: "",
+      mysay: []
     }
   }
+
+  relase(newValue) {
+    if (newValue) {
+      $.post('/relase', {_id: this.state._id, says: newValue}, (data)=> {
+        this.setState({mysay: data, show: 'show_myhouse'});
+      });
+    } else {
+      $.post('/relase', {_id: this.state._id}, (data)=> {
+        this.setState({mysay: data, show: 'show_myhouse'});
+      });
+    }
+  }
+
 
   findFriends() {
     this.setState({
@@ -97,7 +113,8 @@ export default class PersonPage extends Component {
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
                 friends={this.state.friends} message={this.state.message} show={this.state.show}
                 onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}
-                showMyFriends={this.showMyFriends.bind(this)} myFriends={this.state.myFriends}/>
+                showMyFriends={this.showMyFriends.bind(this)} myFriends={this.state.myFriends}
+                says={this.state.mysay} onRelase={this.relase.bind(this)}/>
         <Footer />
       </div>
     )
@@ -127,18 +144,22 @@ class Mainer extends Component {
   render() {
     return <div>
       <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage}
-            showMyFriends={this.props.showMyFriends}/>
+            showMyFriends={this.props.showMyFriends} onRelase={this.props.onRelase}/>
       <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
              getHobbies={this.props.getHobbies} getCity={this.props.getCity}
              getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
              friends={this.props.friends} addFriends={this.props.addFriends}
              message={this.props.message} show={this.props.show}
-             myFriends={this.props.myFriends}/>
+             myFriends={this.props.myFriends} says={this.props.says} onRelase={this.props.onRelase}/>
     </div>
   }
 }
 
 class Left extends Component {
+  relase() {
+    this.props.onRelase();
+  }
+
   toFindFriends() {
     this.props.findFriends();
   }
@@ -161,7 +182,7 @@ class Left extends Component {
           <ul className="list-group">
             <li className="list-group-item"><a onClick={this.toFindFriends.bind(this)}> 推荐好友</a></li>
             <li className="list-group-item"><a onClick={this.showMyFriends.bind(this)}>我的好友</a></li>
-            <li className="list-group-item"><a>我的动态</a></li>
+            <li className="list-group-item"><a onClick={this.relase.bind(this)}>我的动态</a></li>
             <li className="list-group-item"><a onClick={this.selectMessage.bind(this)}>个人信息</a></li>
             <li className="list-group-item"><a>修改信息</a></li>
             <li className="list-group-item"><a>留言板</a></li>
@@ -177,7 +198,8 @@ class Left extends Component {
 
 class Right extends Component {
   render() {
-    return <div className="col-lg-6 rightshow" id="showFriends">
+    return <div className="col-lg-8 " id="showMyHouse">
+
       <div className={this.props.isWantToFindFriends ? '' : 'hidden'}>
         <OptionsToFind findFriends={this.props.findFriends} getHobbies={this.props.getHobbies}
                        getCity={this.props.getCity}
@@ -189,12 +211,18 @@ class Right extends Component {
       <div className={this.props.show === "show-myFriends" ? "" : 'hidden'}>
         <ShowMyFriends myFriends={this.props.myFriends}/>
       </div>
+
       <div className={this.props.show === "person-message" ? "" : 'hidden'}>
         <span>基本资料</span>
         <hr/>
         <div className="col-md-5">
           <MessageTable message={this.props.message} show={this.props.show}/>
         </div>
+      </div>
+
+      <div className={this.props.show === "show_myhouse" ? "" : 'hidden'}>
+        <Published onRelase={this.props.onRelase}/>
+        <Myhouse says={this.props.says}/>
       </div>
     </div>
   }

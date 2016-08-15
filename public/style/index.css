@@ -32,6 +32,13 @@
   height: 450px;
 }
 
+#showMyHouse{
+border: solid 1px #3a9d8c;
+  height: 550px;
+  margin-top: 30px;
+  overflow: scroll;
+}
+
 #listFriends {
   border: solid 1px darkgrey;
   height: 150px;
