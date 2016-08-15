@@ -8,8 +8,6 @@ import MessageBoard from './message-board'
 import ShowMyFriends from './show-my-friends';
 import {Published, Myhouse} from './myhouse';
 
-import cookie from 'react-cookie';
-
 export default class PersonPage extends Component {
   constructor() {
     super();
@@ -20,7 +18,6 @@ export default class PersonPage extends Component {
       hobbies: [],
       city: '',
       age: '',
-      // _id: cookie.load('userId'),
       message: {name: '', sex: "", age: "0", city: "", hobbies: []},
       show: "",
       mysay: []
@@ -38,7 +35,6 @@ export default class PersonPage extends Component {
       });
     }
   }
-
 
   findFriends() {
     this.setState({
@@ -82,7 +78,7 @@ export default class PersonPage extends Component {
 
   addFriends(index) {
     const _id = this.props._id;
-    const attentionFriend = this.state.friends[index].name;
+    const attentionFriend = this.state.friends[index];
     $.post('/attention/' + _id, {attentionFriend}, function (message) {
       alert(message);
     });
@@ -138,8 +134,7 @@ class Header extends Component {
       <div className="col-lg-8">
         <div className="col-lg-offset-9" id="welcome">
           <span>欢迎, <em>{this.props.name}</em></span>&nbsp;&nbsp;
-          <Link to="/">退出</Link>/
-          <Link to="/">注销</Link>
+          <Link to="/">退出登录</Link>
         </div>
       </div>
     </div>
