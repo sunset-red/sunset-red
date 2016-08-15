@@ -9,13 +9,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.get('/myFriends/:userName', function (req, res) {
+app.get('/myFriends/:userId', function (req, res) {
 
-  const userName = req.params.userName;
+  const _id = req.params.userId;
   mongoClient.connect(dbConnectStr, (err, db)=> {
     const collection = db.collection('sunsetcol');
 
-    collection.findOne({name:userName}, function (err, result) {
+    collection.findOne({_id}, function (err, result) {
       if (err) {
         throw err;
       } else {

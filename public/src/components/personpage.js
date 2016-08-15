@@ -11,7 +11,6 @@ export default class PersonPage extends Component {
   constructor() {
     super();
     this.state = {
-      userName: 'jack',
       myFriends: [],
       isWantToFindFriends: false,
       friends: [],
@@ -74,9 +73,9 @@ export default class PersonPage extends Component {
   }
 
   showMyFriends() {
-    const userName = this.state.userName;
+    const userId = this.state.userId;
 
-    $.get('/myFriends/' + userName, (myFriends) => {
+    $.get('/myFriends/' + userId, (myFriends) => {
       this.setState({
         myFriends,
         show: "show-myFriends"
