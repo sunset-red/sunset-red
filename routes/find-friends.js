@@ -22,7 +22,7 @@ app.post('/friends', function (req, res) {
     collection.find({city, age}).toArray(function (err, result) {
       result.forEach(element => {
         if (hobbies.every(hobby => element.hobbies.includes(hobby))) {
-          friends.push(element);
+          friends.push(element.name);
         }
       });
       res.send(friends);
