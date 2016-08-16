@@ -22,7 +22,7 @@ export default class MessageBoard extends Component {
     $.ajax({
       url: '/leaveWord',
       type: 'PUT',
-      data: {name, words, date},
+      data: {name, words, date,_id: cookie.load('userId')},
     });
     $.post('/leaveMessage', {_id: cookie.load('userId')}, function (leaveMessage) {
       this.setState({leaveMessage});
