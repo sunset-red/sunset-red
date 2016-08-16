@@ -9,6 +9,7 @@ import ShowMyFriends from './show-my-friends';
 import {Published, Myhouse} from './myhouse';
 import ModifyPersonMessage from './modify-person-message'
 
+
 export default class PersonPage extends Component {
   constructor() {
     super();
@@ -107,7 +108,11 @@ export default class PersonPage extends Component {
   }
 
   modifyPersonMessage() {
-    this.setState({show: 'modify-person-message'})
+    this.setState({show: "modify-person-message"})
+  }
+
+  confirmModify() {
+    this.setState({show: "person-message"})
   }
 
   render() {
@@ -122,7 +127,9 @@ export default class PersonPage extends Component {
                 onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}
                 showMyFriends={this.showMyFriends.bind(this)} myFriends={this.state.myFriends}
                 says={this.state.mysay} onRelase={this.relase.bind(this)}
-                onPersonMessage={this.modifyPersonMessage.bind(this)}/>
+                onModify={this.modifyPersonMessage.bind(this)}
+                confirmModify={this.confirmModify.bind(this)}
+        />
         <Footer />
       </div>
     )
@@ -151,15 +158,15 @@ class Mainer extends Component {
   render() {
     return <div>
       <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage} onLeaveWords={this.props.leaveWords}
-            showMyFriends={this.props.showMyFriends} onRelase={this.props.onRelase}
-            onPersonMessage={this.props.onPersonMessage}/>
+            showMyFriends={this.props.showMyFriends} onRelase={this.props.onRelase}/>
 
       <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
              getHobbies={this.props.getHobbies} getCity={this.props.getCity}
              getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
              friends={this.props.friends} addFriends={this.props.addFriends}
              message={this.props.message} show={this.props.show}
-             myFriends={this.props.myFriends} says={this.props.says} onRelase={this.props.onRelase}/>
+             myFriends={this.props.myFriends} says={this.props.says} onRelase={this.props.onRelase}
+             onModify={this.props.onModify} confirmModify={this.props.confirmModify}/>
     </div>
   }
 }
@@ -185,10 +192,6 @@ class Left extends Component {
     this.props.onLeaveWords();
   }
 
-  modifyPersonMessage() {
-    this.props.onPersonMessage();
-  }
-
   render() {
     return <div className="col-lg-4">
       <div id="leftOfPersonPage">
@@ -201,7 +204,6 @@ class Left extends Component {
             <li className="list-group-item"><a onClick={this.showMyFriends.bind(this)}>我的好友</a></li>
             <li className="list-group-item"><a onClick={this.relase.bind(this)}>我的动态</a></li>
             <li className="list-group-item"><a onClick={this.selectMessage.bind(this)}>个人信息</a></li>
-            <li className="list-group-item"><a onClick={this.modifyPersonMessage.bind(this)}>修改信息</a></li>
             <li className="list-group-item"><a onClick={this.toLeaveWords.bind(this)}>留言板</a></li>
           </ul>
         </div>
@@ -232,7 +234,8 @@ class Right extends Component {
         <span>基本资料</span>
         <hr/>
         <div className="col-md-5">
-          <MessageTable message={this.props.message} show={this.props.show}/>
+          <MessageTable message={this.props.message} show={this.props.show}
+                        onModify={this.props.onModify}/>
         </div>
       </div>
       <div className={this.props.show === "leave-words" ? "" : 'hidden'}>
@@ -243,7 +246,7 @@ class Right extends Component {
         <Myhouse says={this.props.says}/>
       </div>
       <div className={this.props.show === "modify-person-message" ? "" : 'hidden'}>
-        <ModifyPersonMessage/>
+        <ModifyPersonMessage confirmModify={this.props.confirmModify}/>
       </div>
     </div>
   }
@@ -257,7 +260,7 @@ class Footer extends Component {
   }
 }
 
-class OptionsToFind extends Component {
+export class OptionsToFind extends Component {
   closeModal() {
     this.props.findFriends();
   }

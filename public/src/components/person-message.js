@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 
 export default class MessageTable extends Component {
+  modifyPersonMessage() {
+    this.props.onModify();
+  }
 
   render() {
     const hobbies = Array.isArray(this.props.message.hobbies) ? this.props.message.hobbies.join("\t") : "";
@@ -32,6 +35,7 @@ export default class MessageTable extends Component {
             </tbody>
           </table>
         </div>
+        <button className="btn btn-default" onClick={this.modifyPersonMessage.bind(this)}>修改信息</button>
       </div>
     );
   }
