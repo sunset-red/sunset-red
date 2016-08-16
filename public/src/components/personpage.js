@@ -25,11 +25,11 @@ export default class PersonPage extends Component {
 
   relase(newValue) {
     if (newValue) {
-      $.post('/relase', {_id: this.props._id, says: newValue}, (data)=> {
+      $.post('/relase', {userId: this.props.userId, says: newValue}, (data)=> {
         this.setState({mysay: data, show: 'show_myhouse'});
       });
     } else {
-      $.post('/relase', {_id: this.props._id}, (data)=> {
+      $.post('/relase', {userId: this.props.userId}, (data)=> {
         this.setState({mysay: data, show: 'show_myhouse'});
       });
     }
@@ -57,13 +57,14 @@ export default class PersonPage extends Component {
   }
 
   confirmSelect() {
+    const userId = this.props.userId;
     const hobbies = this.state.hobbies;
     const city = this.state.city;
     const age = this.state.age;
 
     $.ajax({
       type: "POST",
-      url: '/friends',
+      url: '/friends/' + userId,
       data: JSON.stringify({hobbies, city, age}),
       contentType: "application/json",
       dataType: 'json',
@@ -77,17 +78,17 @@ export default class PersonPage extends Component {
   }
 
   addFriends(index) {
-    const _id = this.props._id;
+    const userId = this.props.userId;
     const attentionFriend = this.state.friends[index];
-    $.post('/attention/' + _id, {attentionFriend}, function (message) {
+    $.post('/attention/' + userId, {attentionFriend}, function (message) {
       alert(message);
     });
   }
 
   showMyFriends() {
-    const _id = this.props._id;
+    const userId = this.props.userId;
 
-    $.get('/myFriends/' + _id, (myFriends) => {
+    $.get('/myFriends/' + userId, (myFriends) => {
       this.setState({
         myFriends,
         show: "show-myFriends"
@@ -96,7 +97,7 @@ export default class PersonPage extends Component {
   }
 
   selectMessage() {
-    $.post('/message', {_id: this.props._id}, function (n) {
+    $.post('/message', {userId: this.props.userId}, function (n) {
       this.setState({message: n, show: "person-message"})
     }.bind(this));
   }
@@ -108,7 +109,7 @@ export default class PersonPage extends Component {
   render() {
     return (
       <div>
-        <Header _id={this.props._id} name={this.props.name}/>
+        <Header name={this.props.name}/>
         <Mainer showSelectModal={this.showSelectModal.bind(this)} HiddenSelectModal={this.HiddenSelectModal.bind(this)}
                 getHobbies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}

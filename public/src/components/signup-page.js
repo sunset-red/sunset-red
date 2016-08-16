@@ -6,7 +6,7 @@ export default class SignUpPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      '_id': '',
+      userId: '',
       name: '',
       sex: '',
       password: '',
@@ -19,13 +19,13 @@ export default class SignUpPage extends Component {
   }
 
   handleId(event) {
-    this.setState({'_id': event.target.value});
+    this.setState({userId: event.target.value});
   }
 
   verifyId(event) {
     this.setState({flag:true});
     if (event.keyCode == 9) {
-      $.post('/passwordVerify', {_id: this.state._id}, (data)=> {
+      $.post('/passwordVerify', {userId: this.state.userId}, (data)=> {
         if (data.length != 0) {
           alert('此手机号已注册！');
           this.setState({flag:false})
@@ -33,7 +33,7 @@ export default class SignUpPage extends Component {
           this.setState({flag: true});
           const regu = /^1\d{10}$/;
           const re = new RegExp(regu);
-          if (re.test(this.state._id)) {
+          if (re.test(this.state.userId)) {
           } else {
             alert('请填写有效的11位手机号码');
             this.setState({flag:false})
@@ -45,14 +45,14 @@ export default class SignUpPage extends Component {
 
   verifyIdOnMouse(event){
     this.setState({flag:true});
-    $.post('/passwordVerify', {_id: this.state._id}, (data)=> {
+    $.post('/passwordVerify', {userId: this.state.userId}, (data)=> {
       if (data.length != 0) {
         alert('此手机号已注册！');
         this.setState({flag:false})
       }else{
         const regu = /^1\d{10}$/;
         const re = new RegExp(regu);
-        if (re.test(this.state._id)) {
+        if (re.test(this.state.userId)) {
         } else {
           alert('请填写有效的11位手机号码');
           this.setState({flag:false})
@@ -161,7 +161,7 @@ export default class SignUpPage extends Component {
   sendData() {
     this.state.sex = $("input[name=sex]:checked").val();
     const messages = {
-      '_id': this.state._id,
+      userId: this.state.userId,
       name: this.state.name,
       sex: this.state.sex,
       password: this.state.password,

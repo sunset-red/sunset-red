@@ -9,20 +9,20 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.post('/friends', function (req, res) {
+app.post('/friends/:userId', function (req, res) {
+  const userId = req.params.userId
+  const hobbies = req.body.hobbies;
+  const city = req.body.city;
+  const age = req.body.age;
 
   mongoClient.connect(dbConnectStr, (err, db)=> {
-    const hobbies = req.body.hobbies;
-    const city = req.body.city;
-    const age = req.body.age;
-
     const friends = [];
     let myFriends = [];
     let myself;
 
     const collection = db.collection('sunsetcol');
 
-    collection.findOne({_id: "12345678900"}, function (err, result) {
+    collection.findOne({userId}, function (err, result) {
       if (err) {
         throw err;
       } else {

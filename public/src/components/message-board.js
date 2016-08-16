@@ -14,7 +14,7 @@ export default class MessageBoard extends Component {
 
   componentDidMount() {
 
-    $.post('/leaveMessage', {_id: '12345678900'}, function (leaveMessage) {
+    $.post('/leaveMessage', {userId: '12345678900'}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }
@@ -26,7 +26,7 @@ export default class MessageBoard extends Component {
       type: 'PUT',
       data: {name, words, date},
     });
-    $.post('/leaveMessage', {_id: '12345678900'}, function (leaveMessage) {
+    $.post('/leaveMessage', {userId: '12345678900'}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }
