@@ -13,7 +13,6 @@ export default class PersonPage extends Component {
     super();
     this.state = {
       myFriends: [],
-      isWantToFindFriends: false,
       friends: [],
       hobbies: [],
       city: '',
@@ -36,11 +35,12 @@ export default class PersonPage extends Component {
     }
   }
 
-  findFriends() {
-    this.setState({
-      isWantToFindFriends: !this.state.isWantToFindFriends,
-      show: ""
-    });
+  showSelectModal() {
+    this.setState({show: "select-modal"})
+  }
+
+  HiddenSelectModal() {
+    this.setState({show: ""});
   }
 
   getHobbies(hobby) {
@@ -109,14 +109,13 @@ export default class PersonPage extends Component {
     return (
       <div>
         <Header _id={this.props._id} name={this.props.name}/>
-        <Mainer isWantToFindFriends={this.state.isWantToFindFriends} findFriends={this.findFriends.bind(this)}
+        <Mainer showSelectModal={this.showSelectModal.bind(this)} HiddenSelectModal={this.HiddenSelectModal.bind(this)}
                 getHobbies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
                 friends={this.state.friends} message={this.state.message} show={this.state.show}
-                leaveWords={this.leaveWords.bind(this)}
-                onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}
-                showMyFriends={this.showMyFriends.bind(this)} myFriends={this.state.myFriends}
-                says={this.state.mysay} onRelase={this.relase.bind(this)}/>
+                leaveWords={this.leaveWords.bind(this)} onMessage={this.selectMessage.bind(this)}
+                addFriends={this.addFriends.bind(this)} showMyFriends={this.showMyFriends.bind(this)}
+                myFriends={this.state.myFriends} says={this.state.mysay} onRelase={this.relase.bind(this)}/>
         <Footer />
       </div>
     )
@@ -144,10 +143,11 @@ class Header extends Component {
 class Mainer extends Component {
   render() {
     return <div>
-      <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage} onLeaveWords={this.props.leaveWords}
-            showMyFriends={this.props.showMyFriends} onRelase={this.props.onRelase}/>
+      <Left onMessage={this.props.onMessage} onLeaveWords={this.props.leaveWords}
+            showMyFriends={this.props.showMyFriends} onRelase={this.props.onRelase}
+            showSelectModal={this.props.showSelectModal}/>
 
-      <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
+      <Right isWantToFindFriends={this.props.isWantToFindFriends} HiddenSelectModal={this.props.HiddenSelectModal}
              getHobbies={this.props.getHobbies} getCity={this.props.getCity}
              getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
              friends={this.props.friends} addFriends={this.props.addFriends}
@@ -163,7 +163,7 @@ class Left extends Component {
   }
 
   toFindFriends() {
-    this.props.findFriends();
+    this.props.showSelectModal();
   }
 
   showMyFriends() {
@@ -206,10 +206,10 @@ class Right extends Component {
   render() {
     return <div className="col-lg-8 " id="showMyHouse">
 
-      <div className={this.props.isWantToFindFriends ? '' : 'hidden'}>
-        <OptionsToFind findFriends={this.props.findFriends} getHobbies={this.props.getHobbies}
-                       getCity={this.props.getCity}
-                       getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}/>
+      <div className={this.props.show === "select-modal" ? "" : 'hidden'}>
+        <OptionsToFind HiddenSelectModal={this.props.HiddenSelectModal} getHobbies={this.props.getHobbies}
+                       getCity={this.props.getCity} getAge={this.props.getAge}
+                       confirmSelect={this.props.confirmSelect}/>
       </div>
       <div className={this.props.show === "find-friends" ? "" : 'hidden'}>
         <ShowFriends friends={this.props.friends} addFriends={this.props.addFriends}/>
@@ -245,7 +245,7 @@ class Footer extends Component {
 
 class OptionsToFind extends Component {
   closeModal() {
-    this.props.findFriends();
+    this.props.HiddenSelectModal();
   }
 
   confirmSelect() {
