@@ -6,7 +6,7 @@ import ShowFriends from './show-friends';
 import MessageTable from './person-message';
 import MessageBoard from './message-board'
 import ShowMyFriends from './show-my-friends';
-import {Publishform, dynamics} from './myhouse';
+import {Publishform, Dynamics} from './myhouse';
 import ModifyPersonMessage from './modify-person-message'
 
 export default class PersonPage extends Component {
@@ -27,7 +27,7 @@ export default class PersonPage extends Component {
 
   showDynamics(newValue) {
     if (newValue) {
-      $.post('/dynamics', {_id: this.props._id, says: newValue}, (data)=> {
+      $.post('/dynamics', {_id: this.props._id, dynamics: newValue}, (data)=> {
         this.setState({mysay: data, show: 'show_myhouse'});
       });
     } else {
@@ -121,8 +121,8 @@ export default class PersonPage extends Component {
                 leaveWords={this.leaveWords.bind(this)}
                 onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}
                 showMyFriends={this.showMyFriends.bind(this)} myFriends={this.state.myFriends}
-                says={this.state.mysay} onDynamics={this.showDynamics.bind(this)}
-                onPersonMessage={this.modifyPersonMessage.bind(this)}/>
+                dynamics={this.state.mysay} onDynamics={this.showDynamics.bind(this)}
+                onPersonMessage={this.modifyPersonMessage.bind(this)} name = {this.props.name}/>
         <Footer />
       </div>
     )
@@ -159,7 +159,8 @@ class Mainer extends Component {
              getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
              friends={this.props.friends} addFriends={this.props.addFriends}
              message={this.props.message} show={this.props.show}
-             myFriends={this.props.myFriends} says={this.props.says} onDynamics={this.props.onDynamics}/>
+             myFriends={this.props.myFriends} dynamics={this.props.dynamics} onDynamics={this.props.onDynamics}
+             name = {this.props.name}/>
     </div>
   }
 }
@@ -240,7 +241,7 @@ class Right extends Component {
       </div>
       <div className={this.props.show === "show_myhouse" ? "" : 'hidden'}>
         <Publishform onDynamics={this.props.onDynamics}/>
-        <dynamics says={this.props.says}/>
+        <Dynamics dynamics={this.props.dynamics} name = {this.props.name}/>
       </div>
       <div className={this.props.show === "modify-person-message" ? "" : 'hidden'}>
         <ModifyPersonMessage/>

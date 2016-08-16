@@ -7,15 +7,15 @@ const url = 'mongodb://localhost:27017/sunset';
 Router.post('/dynamics', function (req, res) {
   MongoClient.connect(url, (err, db)=> {
     const collection = db.collection('sunsetcol');
-    if (req.body.says) {
-      collection.updateOne({_id: req.body._id}, {$addToSet: {says: req.body.says}});
+    if (req.body.dynamics) {
+      collection.updateOne({_id: req.body._id}, {$addToSet: {dynamics: req.body.dynamics}});
     }
-    var says = [];
+    var dynamics = [];
     collection.find({_id: req.body._id}).toArray((err, result)=> {
-      if (Array.isArray(result[0].says)) {
-        says = result[0].says.reverse();
+      if (Array.isArray(result[0].dynamics)) {
+        dynamics = result[0].dynamics.reverse();
       }
-      res.send(says);
+      res.send(dynamics);
     });
     db.close();
   })
