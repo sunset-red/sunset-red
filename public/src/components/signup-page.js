@@ -14,7 +14,7 @@ export default class SignUpPage extends Component {
       hobbies: [],
       age: '',
       city: '',
-      flag:false
+      flag: false
     }
   }
 
@@ -23,39 +23,39 @@ export default class SignUpPage extends Component {
   }
 
   verifyId(event) {
-    this.setState({flag:true});
+    this.setState({flag: true});
     if (event.keyCode == 9) {
       $.post('/passwordVerify', {userId: this.state.userId}, (data)=> {
         if (data.length != 0) {
           alert('此手机号已注册！');
-          this.setState({flag:false})
-        }else{
+          this.setState({flag: false})
+        } else {
           this.setState({flag: true});
           const regu = /^1\d{10}$/;
           const re = new RegExp(regu);
           if (re.test(this.state.userId)) {
           } else {
             alert('请填写有效的11位手机号码');
-            this.setState({flag:false})
+            this.setState({flag: false})
           }
         }
       });
     }
   }
 
-  verifyIdOnMouse(event){
-    this.setState({flag:true});
+  verifyIdOnMouse(event) {
+    this.setState({flag: true});
     $.post('/passwordVerify', {userId: this.state.userId}, (data)=> {
       if (data.length != 0) {
         alert('此手机号已注册！');
-        this.setState({flag:false})
-      }else{
+        this.setState({flag: false})
+      } else {
         const regu = /^1\d{10}$/;
         const re = new RegExp(regu);
         if (re.test(this.state.userId)) {
         } else {
           alert('请填写有效的11位手机号码');
-          this.setState({flag:false})
+          this.setState({flag: false})
         }
       }
     });
@@ -65,24 +65,22 @@ export default class SignUpPage extends Component {
     this.setState({name: event.target.value})
   }
 
-  verifyName(event){
-    this.setState({flag:true});
-    if(event.keyCode == 9){
+  verifyName(event) {
+    if (event.keyCode == 9) {
       $.post('/nameVerify', {name: this.state.name}, (data)=> {
         if (data.length != 0) {
           alert('此昵称已使用！');
-          this.setState({flag:false})
+          this.setState({flag: false})
         }
       });
     }
   }
 
-  verifyNameOnMouse(event){
-    this.setState({flag:true});
+  verifyNameOnMouse(event) {
     $.post('/nameVerify', {name: this.state.name}, (data)=> {
       if (data.length != 0) {
         alert('此昵称已使用！');
-        this.setState({flag:false})
+        this.setState({flag: false})
       }
     });
   }
@@ -92,26 +90,24 @@ export default class SignUpPage extends Component {
   }
 
   verifyPw(event) {
-    this.setState({flag:true});
     if (event.keyCode == 9) {
       const regu = /^[0-9A-Za-z]{6,20}$/;
       const re = new RegExp(regu);
       if (re.test(this.state.password)) {
       } else {
         alert('请输入6-20个数字、字母(区分大小写)');
-        this.setState({flag:false})
+        this.setState({flag: false})
       }
     }
   }
 
-  verifyPwOnMouse(event){
-    this.setState({flag:true});
+  verifyPwOnMouse(event) {
     const regu = /^[0-9A-Za-z]{6,20}$/;
     const re = new RegExp(regu);
     if (re.test(this.state.password)) {
     } else {
       alert('请输入6-20个数字、字母(区分大小写)');
-      this.setState({flag:false})
+      this.setState({flag: false})
     }
   }
 
@@ -120,12 +116,11 @@ export default class SignUpPage extends Component {
   }
 
   confirmPw(event) {
-    this.setState({flag:true});
     if (event.keyCode == 9) {
       if (this.state.cfpw === this.state.password) {
       } else {
         alert("确认密码和密码不符合");
-        this.setState({flag:false});
+        this.setState({flag: false});
         $("input[id=cfpw]").val('');
         $("input[id=cfpw]").focus();
         event.preventDefault();
@@ -133,12 +128,12 @@ export default class SignUpPage extends Component {
     }
   }
 
-  confirmPwOnMouse(event){
-    this.setState({flag:true})
+  confirmPwOnMouse(event) {
+    this.setState({flag: true})
     if (this.state.cfpw === this.state.password) {
     } else {
       alert("确认密码和密码不符合");
-      this.setState({flag:false});
+      this.setState({flag: false});
       $("input[id=cfpw]").val('');
       $("input[id=cfpw]").focus();
       event.preventDefault();
@@ -169,7 +164,7 @@ export default class SignUpPage extends Component {
       age: this.state.age,
       city: this.state.city
     };
-    if(this.state.flag == true){
+    if (this.state.flag == true) {
       $.ajax({
         type: 'POST',
         url: '/signup',
@@ -177,7 +172,7 @@ export default class SignUpPage extends Component {
         data: JSON.stringify(messages),
         dataType: 'json'
       });
-    }else{
+    } else {
       alert('注册失败！')
     }
   }
@@ -197,7 +192,7 @@ export default class SignUpPage extends Component {
           <div className="input-group">
             <span className="input-group-addon">昵称</span>
             <input type="text" id='nickname' className="form-control" onChange={this.handleName.bind(this, event)}
-                   onKeyDown={this.verifyName.bind(this)} onClick={this.verifyIdOnMouse.bind(this)} />
+                   onKeyDown={this.verifyName.bind(this)} onClick={this.verifyIdOnMouse.bind(this)}/>
           </div>
           <br/>
           <div className="input-group">
@@ -230,7 +225,7 @@ export default class SignUpPage extends Component {
           </div>
           <div className="col-lg-offset-8">
             <Link to={this.state.flag ?
-              "/personPage":"/signUpPage"} onClick={this.sendData.bind(this)}>注册</Link>
+              "/personPage" : "/signUpPage"} onClick={this.sendData.bind(this)}>注册</Link>
           </div>
         </div>
       </div>

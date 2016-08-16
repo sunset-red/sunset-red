@@ -10,12 +10,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.post('/friends/:userId', function (req, res) {
-  const userId = req.params.userId
-  const hobbies = req.body.hobbies;
-  const city = req.body.city;
-  const age = req.body.age;
 
   mongoClient.connect(dbConnectStr, (err, db)=> {
+    const userId = req.params.userId;
+    const hobbies = req.body.hobbies;
+    const city = req.body.city;
+    const age = req.body.age;
+
     const friends = [];
     let myFriends = [];
     let myself;
@@ -38,7 +39,10 @@ app.post('/friends/:userId', function (req, res) {
         }
       });
 
-      friends.splice(friends.indexOf(myself), 1);
+      const index = friends.indexOf(myself);
+      if (index != -1) {
+        friends.splice(index, 1);
+      }
       const newFriends = friends.filter(friend => !myFriends.includes(friend));
       res.send(newFriends);
     });

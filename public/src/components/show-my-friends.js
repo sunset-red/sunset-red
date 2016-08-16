@@ -3,7 +3,8 @@ import React, {Component} from "react";
 export default class ShowMyFriends extends Component {
 
   render() {
-    const myFriends = this.props.myFriends.map((friend, index) => {
+    const friends = Array.isArray(this.props.myFriends)?this.props.myFriends:[];
+    const myFriends = friends.map((friend, index) => {
       return <div className="col-lg-7 col-lg-offset-2" key={index} id="showMyFriends">
         <img src="../../image/logo.jpg" className="sameLine"/>
         <h3 className="sameLine">{friend}</h3>

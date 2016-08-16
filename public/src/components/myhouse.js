@@ -18,7 +18,7 @@ export class Published extends Component {
 export class Myhouse extends Component {
   render() {
     const says = this.props.says.map((say, index)=> {
-      return <li className="media" id={index}>
+      return <li className="media" id={index} key={index}>
         <div className="media-left media-middle">
           <a href="#">
             <img style={{width: '64px', height: '64px'}} className="media-object" src="../../image/head.jpg" alt="..."/>
