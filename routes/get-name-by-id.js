@@ -15,7 +15,11 @@ app.get('/userName/:_id', function (req, res) {
     collection.findOne({_id}, function (err, result) {
       if (err) {
         throw err;
-      } else {
+      }
+      else if(!result)
+      {
+        res.send("");
+      }else {
         res.send(result.name);
       }
     });

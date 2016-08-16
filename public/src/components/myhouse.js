@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-export class Published extends Component {
+export class Publishform extends Component {
   relase() {
     const newValue = $('input[name =inputValue]').val();
     this.props.onRelase(newValue);
@@ -15,7 +15,7 @@ export class Published extends Component {
     </div>
   }
 }
-export class Myhouse extends Component {
+export class dynamics extends Component {
   render() {
     const says = this.props.says.map((say, index)=> {
       return <li className="media" id={index}>

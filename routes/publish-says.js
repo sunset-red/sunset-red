@@ -4,7 +4,7 @@ var Router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017/sunset';
 
-Router.post('/relase', function (req, res) {
+Router.post('/dynamics', function (req, res) {
   MongoClient.connect(url, (err, db)=> {
     const collection = db.collection('sunsetcol');
     if (req.body.says) {
