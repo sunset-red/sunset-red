@@ -5,7 +5,6 @@ var app = new express();
 const MongoClient = require('mongodb').MongoClient;
 const dbURL = 'mongodb://localhost:27017/sunset';
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 

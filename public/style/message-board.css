@@ -1,0 +1,27 @@
+.leave-words {
+  height: 65px;
+  margin-bottom: 10px;
+  padding: 2px 5px;
+  background-color: #d0e9c6;
+  border-radius: 5px;
+}
+
+.leave-date {
+  text-align: right;
+  font-style: italic;
+  display: block;
+}
+
+.leave-name {
+  color: #3a9d8c;
+  display: block;
+}
+
+.message {
+  font-family: Arial;
+  display: block;
+}
+
+.board-form {
+  margin: 10px auto;
+}
