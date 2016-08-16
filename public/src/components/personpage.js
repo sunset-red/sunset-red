@@ -1,13 +1,12 @@
 import React, {Component} from "react";
-import {Link} from 'react-router';
-
-import {Hobbies, City, AgeSegment} from './select-options';
-import ShowFriends from './show-friends';
-import MessageTable from './person-message';
-import MessageBoard from './message-board'
-import ShowMyFriends from './show-my-friends';
-import {Publishform, Dynamics} from './myhouse';
-import ModifyPersonMessage from './modify-person-message'
+import {Link} from "react-router";
+import {Hobbies, City, AgeSegment} from "./select-options";
+import ShowFriends from "./show-friends";
+import MessageTable from "./person-message";
+import MessageBoard from "./message-board";
+import ShowMyFriends from "./show-my-friends";
+import {Publishform, Dynamics} from "./myhouse";
+import ModifyPersonMessage from "./modify-person-message";
 
 export default class PersonPage extends Component {
   constructor() {
@@ -21,18 +20,19 @@ export default class PersonPage extends Component {
       age: '',
       message: {name: '', sex: "", age: "0", city: "", hobbies: []},
       show: "",
-      mysay: []
+      myDynamics: []
     }
   }
 
   showDynamics(newValue) {
+    const time = new Date().toLocaleString();
     if (newValue) {
-      $.post('/dynamics', {_id: this.props._id, dynamics: newValue}, (data)=> {
-        this.setState({mysay: data, show: 'show_myhouse'});
+      $.post('/dynamics', {_id: this.props._id, dynamic: newValue, time}, (data)=> {
+        this.setState({myDynamics: data, show: 'show_myhouse'});
       });
     } else {
       $.post('/dynamics', {_id: this.props._id}, (data)=> {
-        this.setState({mysay: data, show: 'show_myhouse'});
+        this.setState({myDynamics: data, show: 'show_myhouse'});
       });
     }
   }
@@ -121,8 +121,8 @@ export default class PersonPage extends Component {
                 leaveWords={this.leaveWords.bind(this)}
                 onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}
                 showMyFriends={this.showMyFriends.bind(this)} myFriends={this.state.myFriends}
-                dynamics={this.state.mysay} onDynamics={this.showDynamics.bind(this)}
-                onPersonMessage={this.modifyPersonMessage.bind(this)} name = {this.props.name}/>
+                mydynamics={this.state.myDynamics} onDynamics={this.showDynamics.bind(this)}
+                onPersonMessage={this.modifyPersonMessage.bind(this)} name={this.props.name}/>
         <Footer />
       </div>
     )
@@ -159,8 +159,8 @@ class Mainer extends Component {
              getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
              friends={this.props.friends} addFriends={this.props.addFriends}
              message={this.props.message} show={this.props.show}
-             myFriends={this.props.myFriends} dynamics={this.props.dynamics} onDynamics={this.props.onDynamics}
-             name = {this.props.name}/>
+             myFriends={this.props.myFriends} myDynamics={this.props.mydynamics} onDynamics={this.props.onDynamics}
+             name={this.props.name}/>
     </div>
   }
 }
@@ -241,7 +241,7 @@ class Right extends Component {
       </div>
       <div className={this.props.show === "show_myhouse" ? "" : 'hidden'}>
         <Publishform onDynamics={this.props.onDynamics}/>
-        <Dynamics dynamics={this.props.dynamics} name = {this.props.name}/>
+        <Dynamics myDynamics={this.props.myDynamics} name={this.props.name}/>
       </div>
       <div className={this.props.show === "modify-person-message" ? "" : 'hidden'}>
         <ModifyPersonMessage/>

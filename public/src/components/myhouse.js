@@ -18,13 +18,13 @@ export class Publishform extends Component {
 export class Dynamics extends Component {
   render() {
 
-    const dynamics = this.props.dynamics.map((dynamic, index)=> {
+    const myDynamics = this.props.myDynamics.map((myDynamic, index)=> {
       return <li className="media" id={index} key={index}>
-        <Dynamic name={this.props.name} dynamic={dynamic}/>
+        <Dynamic name={this.props.name} myDynamic={myDynamic}/>
       </li>
     });
     return <ul className="media-list">
-      {dynamics}
+      {myDynamics}
     </ul>
   }
 }
@@ -32,7 +32,7 @@ export class Dynamics extends Component {
 class Dynamic extends Component {
   render() {
     const name = this.props.name;
-    const dynamic = this.props.dynamic;
+    const myDynamic = this.props.myDynamic;
     return <div>
       <div className="media-left media-middle">
         <a href="#">
@@ -41,7 +41,7 @@ class Dynamic extends Component {
       </div>
       < div className="media-body">
         < h4 className="media-heading"> {name}</h4>
-        {dynamic}
+        {myDynamic.dynamic}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{myDynamic.time}
       </div>
     </div>
   }
