@@ -248,7 +248,11 @@ class Right extends Component {
         <Myhouse says={this.props.says}/>
       </div>
       <div className={this.props.show === "modify-person-message" ? "" : 'hidden'}>
-        <ModifyPersonMessage confirmModify={this.props.confirmModify}/>
+        <span>基本资料</span>
+        <hr/>
+        <div className="col-md-5">
+          <ModifyPersonMessage confirmModify={this.props.confirmModify}/>
+        </div>
       </div>
     </div>
   }
