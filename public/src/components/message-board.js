@@ -12,19 +12,15 @@ export default class MessageBoard extends Component {
 
   componentDidMount() {
 
-    $.post('/leaveMessage', {_id: cookie.load('userId')}, function (leaveMessage) {
+    $.post('/leaveMessage', {userId: cookie.load('userId')}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }
 
   toLeaveWord(name, words) {
+
     const date = new Date().toLocaleString();
-    $.ajax({
-      url: '/leaveWord',
-      type: 'PUT',
-      data: {name, words, date},
-    });
-    $.post('/leaveMessage', {_id: cookie.load('userId')}, function (leaveMessage) {
+    $.post('/leaveMessage', {name, words, date, userId: cookie.load('userId')}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }
@@ -43,7 +39,11 @@ class MessageForm extends Component {
   leaveWord() {
     const name = $('input[name=name]').val();
     const words = $('textarea[name=words]').val();
-    this.props.toLeaveWord(name, words);
+    if (name && words) {
+      this.props.toLeaveWord(name, words);
+    } else {
+      alert("输入不能为空");
+    }
   }
 
   render() {

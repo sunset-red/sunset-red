@@ -13,7 +13,7 @@ export default class HomePage extends Component {
 
   onJudge(loginId, password) {
 
-    $.post('/login', {'_id': loginId}, (data)=> {
+    $.post('/login', {userId: loginId}, (data)=> {
       if (loginId === '') {
         alert('请输入帐号');
       } else if (!password) {

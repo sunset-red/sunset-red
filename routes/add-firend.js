@@ -9,15 +9,15 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.post('/attention/:_id', function (req, res) {
+app.post('/attention/:userId', function (req, res) {
 
-  const _id = req.params._id;
+  const userId = req.params.userId;
   const attentionFriend = req.body.attentionFriend;
 
   mongoClient.connect(dbConnectStr, (err, db)=> {
     const collection = db.collection('sunsetcol');
 
-    collection.updateOne({_id}, {$addToSet: {friends: attentionFriend}}, function (err) {
+    collection.updateOne({userId}, {$addToSet: {friends: attentionFriend}}, function (err) {
       if (err) {
         throw err;
       } else {
