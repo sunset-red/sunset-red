@@ -13,7 +13,7 @@ app.put('/leaveWord', function (req, res) {
   mongoClient.connect(dbURL, (err, db)=> {
     const collection = db.collection('sunsetcol');
 
-    collection.update({_id:req.body._id}, {
+    collection.update({_id: req.body._id}, {
       $push: {
         leaveMessage: {
           name: req.body.name,
