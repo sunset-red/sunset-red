@@ -14,7 +14,7 @@ export default class MessageBoard extends Component {
 
   componentDidMount() {
 
-    $.post('/leaveMessage', {_id: '12345678900'}, function (leaveMessage) {
+    $.post('/leaveMessage', {_id: '123456789012'}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }
