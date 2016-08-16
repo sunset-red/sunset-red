@@ -1,30 +1,27 @@
 import React, {Component} from "react";
 import {Link} from "react-router";
-
-import cookie from 'react-cookie';
+import cookie from "react-cookie";
 
 export default class HomePage extends Component {
   constructor() {
     super();
     this.state = {
-      isSame: false
+      isExist: false
     }
   }
 
   onJudge(loginId, password) {
+    $.post('/sessions', {'userId': loginId, 'password': password}, (data)=> {
 
-    $.post('/login', {userId: loginId}, (data)=> {
       if (loginId === '') {
         alert('请输入帐号');
       } else if (!password) {
         alert('请输入密码');
       }
-      else if (data.length === 0) {
-        alert('帐号不存在');
-      } else if (data[0].password != password) {
-        alert('密码错误');
+      else if (data === false) {
+        alert('帐号或密码有误 请重新输入');
       } else {
-        this.setState({isSame: true});
+        this.setState({isExist: true});
       }
     });
 
@@ -35,7 +32,7 @@ export default class HomePage extends Component {
     return (
       <div>
         <Header />
-        <Middle onJudge={this.onJudge.bind(this)} isSame={this.state.isSame} getName={this.props.getName}/>
+        <Middle onJudge={this.onJudge.bind(this)} isExist={this.state.isExist} getName={this.props.getName}/>
         <div className="footer">
           <center>版权所有@sunset</center>
         </div>
@@ -58,7 +55,7 @@ class Header extends Component {
 class Middle extends Component {
   render() {
     return <div className="middle">
-      <SignIn onJudge={this.props.onJudge.bind(this)} isSame={this.props.isSame}
+      <SignIn onJudge={this.props.onJudge.bind(this)} isExist={this.props.isExist}
               getName={this.props.getName}/>
 
       <div id="carousel-example-generic" className="carousel slide" data-ride="carousel">
@@ -143,7 +140,7 @@ class SignIn extends Component {
       </div>
 
       <center>
-        <Link to={this.props.isSame ? '/personPage' : ''}>
+        <Link to={this.props.isExist ? '/personPage' : ''}>
           <button type="submit" onClick={this.judgeId.bind(this)}>
             登录
           </button>
