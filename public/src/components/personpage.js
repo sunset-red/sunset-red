@@ -7,8 +7,7 @@ import MessageTable from './person-message';
 import MessageBoard from './message-board'
 import ShowMyFriends from './show-my-friends';
 import {Published, Myhouse} from './myhouse';
-
-import cookie from 'react-cookie';
+import ModifyPersonMessage from './modify-person-message'
 
 export default class PersonPage extends Component {
   constructor() {
@@ -20,7 +19,6 @@ export default class PersonPage extends Component {
       hobbies: [],
       city: '',
       age: '',
-      _id: cookie.load('userId'),
       message: {name: '', sex: "", age: "0", city: "", hobbies: []},
       show: "",
       mysay: []
@@ -29,16 +27,15 @@ export default class PersonPage extends Component {
 
   relase(newValue) {
     if (newValue) {
-      $.post('/relase', {_id: this.state._id, says: newValue}, (data)=> {
+      $.post('/relase', {_id: this.props._id, says: newValue}, (data)=> {
         this.setState({mysay: data, show: 'show_myhouse'});
       });
     } else {
-      $.post('/relase', {_id: this.state._id}, (data)=> {
+      $.post('/relase', {_id: this.props._id}, (data)=> {
         this.setState({mysay: data, show: 'show_myhouse'});
       });
     }
   }
-
 
   findFriends() {
     this.setState({
@@ -81,15 +78,15 @@ export default class PersonPage extends Component {
   }
 
   addFriends(index) {
-    const _id = this.state._id;
-    const attentionFriend = this.state.friends[index].name;
+    const _id = this.props._id;
+    const attentionFriend = this.state.friends[index];
     $.post('/attention/' + _id, {attentionFriend}, function (message) {
       alert(message);
     });
   }
 
   showMyFriends() {
-    const _id = this.state._id;
+    const _id = this.props._id;
 
     $.get('/myFriends/' + _id, (myFriends) => {
       this.setState({
@@ -100,7 +97,7 @@ export default class PersonPage extends Component {
   }
 
   selectMessage() {
-    $.post('/message', {_id: this.state.userId}, function (n) {
+    $.post('/message', {_id: this.props._id}, function (n) {
       this.setState({message: n, show: "person-message"})
     }.bind(this));
   }
@@ -109,10 +106,14 @@ export default class PersonPage extends Component {
     this.setState({show: "leave-words"});
   }
 
+  modifyPersonMessage() {
+    this.setState({show: 'modify-person-message'})
+  }
+
   render() {
     return (
       <div>
-        <Header />
+        <Header _id={this.props._id} name={this.props.name}/>
         <Mainer isWantToFindFriends={this.state.isWantToFindFriends} findFriends={this.findFriends.bind(this)}
                 getHobbies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
@@ -120,7 +121,8 @@ export default class PersonPage extends Component {
                 leaveWords={this.leaveWords.bind(this)}
                 onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}
                 showMyFriends={this.showMyFriends.bind(this)} myFriends={this.state.myFriends}
-                says={this.state.mysay} onRelase={this.relase.bind(this)}/>
+                says={this.state.mysay} onRelase={this.relase.bind(this)}
+                onPersonMessage={this.modifyPersonMessage.bind(this)}/>
         <Footer />
       </div>
     )
@@ -137,9 +139,8 @@ class Header extends Component {
       </div>
       <div className="col-lg-8">
         <div className="col-lg-offset-9" id="welcome">
-          <span>欢迎,Tom</span>&nbsp;&nbsp;
-          <Link to="/">退出</Link>/
-          <Link to="/">注销</Link>
+          <span>欢迎, <em>{this.props.name}</em></span>&nbsp;&nbsp;
+          <Link to="/">退出登录</Link>
         </div>
       </div>
     </div>
@@ -150,7 +151,8 @@ class Mainer extends Component {
   render() {
     return <div>
       <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage} onLeaveWords={this.props.leaveWords}
-            showMyFriends={this.props.showMyFriends} onRelase={this.props.onRelase}/>
+            showMyFriends={this.props.showMyFriends} onRelase={this.props.onRelase}
+            onPersonMessage={this.props.onPersonMessage}/>
 
       <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
              getHobbies={this.props.getHobbies} getCity={this.props.getCity}
@@ -183,6 +185,10 @@ class Left extends Component {
     this.props.onLeaveWords();
   }
 
+  modifyPersonMessage() {
+    this.props.onPersonMessage();
+  }
+
   render() {
     return <div className="col-lg-4">
       <div id="leftOfPersonPage">
@@ -195,7 +201,7 @@ class Left extends Component {
             <li className="list-group-item"><a onClick={this.showMyFriends.bind(this)}>我的好友</a></li>
             <li className="list-group-item"><a onClick={this.relase.bind(this)}>我的动态</a></li>
             <li className="list-group-item"><a onClick={this.selectMessage.bind(this)}>个人信息</a></li>
-            <li className="list-group-item"><a>修改信息</a></li>
+            <li className="list-group-item"><a onClick={this.modifyPersonMessage.bind(this)}>修改信息</a></li>
             <li className="list-group-item"><a onClick={this.toLeaveWords.bind(this)}>留言板</a></li>
           </ul>
         </div>
@@ -236,6 +242,9 @@ class Right extends Component {
         <Published onRelase={this.props.onRelase}/>
         <Myhouse says={this.props.says}/>
       </div>
+      <div className={this.props.show === "modify-person-message" ? "" : 'hidden'}>
+        <ModifyPersonMessage/>
+      </div>
     </div>
   }
 }
@@ -262,7 +271,9 @@ class OptionsToFind extends Component {
     return <div className="modal-dialog" id="optionsModal">
       <div className="modal-content">
         <div className="modal-header">
-          <button type="button" className="close" data-dismiss="modal" aria-hidden="true" onClick={this.closeModal.bind(this)}>×</button>
+          <button type="button" className="close" data-dismiss="modal" aria-hidden="true"
+                  onClick={this.closeModal.bind(this)}>×
+          </button>
           <h4 className="modal-title" id="myModalLabel">
             请选择：
           </h4>

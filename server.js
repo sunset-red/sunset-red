@@ -9,8 +9,10 @@ function makeServer() {
   const addFriends = require('./routes/add-firend');
   const showMyFriends = require('./routes/show-my-friends');
   const publishSays = require('./routes/publish-says');
-  const leaveWords=require('./routes/leave-words');
-  const leaveMessage=require('./routes/show-leave-message');
+  const leaveWords = require('./routes/leave-words');
+  const leaveMessage = require('./routes/show-leave-message');
+  const getNameById = require('./routes/get-name-by-id');
+  const modifyPersonMessage = require('./routes/update-person-message');
 
   const app = express();
   const compiler = webpack(webpackConfig);
@@ -28,6 +30,7 @@ function makeServer() {
 
   app.use(express.static('public'));
 
+  app.use('/', getNameById);
   app.use(publishSays);
   app.use(loginIn);
   app.use(personMessage);
@@ -35,6 +38,7 @@ function makeServer() {
 
   app.use('/', leaveWords);
   app.use('/', leaveMessage);
+  app.use('/', modifyPersonMessage);
 
   app.use('/', findFriends);
   app.use('/', addFriends);

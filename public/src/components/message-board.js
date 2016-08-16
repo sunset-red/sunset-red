@@ -1,12 +1,10 @@
 import React, {Component} from "react";
+import cookie from 'react-cookie';
 
 export default class MessageBoard extends Component {
   constructor() {
     super();
     this.state = {
-      name: '',
-      words: '',
-      date: new Date().toLocaleString(),
       leaveMessage: [],
       isOwner: false
     };
@@ -14,19 +12,20 @@ export default class MessageBoard extends Component {
 
   componentDidMount() {
 
-    $.post('/leaveMessage', {_id: '123456789012'}, function (leaveMessage) {
+
+    $.post('/leaveMessage', {_id: cookie.load('userId')}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }
 
   toLeaveWord(name, words) {
-    const date = this.state.date;
+    const date = new Date().toLocaleString();
     $.ajax({
       url: '/leaveWord',
       type: 'PUT',
-      data: {name, words, date},
+      data: {name, words, date, _id: cookie.load('userId')},
     });
-    $.post('/leaveMessage', {_id: '12345678900'}, function (leaveMessage) {
+    $.post('/leaveMessage', {_id: cookie.load('userId')}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }
@@ -45,7 +44,11 @@ class MessageForm extends Component {
   leaveWord() {
     const name = $('input[name=name]').val();
     const words = $('textarea[name=words]').val();
-    this.props.toLeaveWord(name, words);
+    if (name && words) {
+      this.props.toLeaveWord(name, words);
+    } else {
+      alert("输入不能为空");
+    }
   }
 
   render() {
@@ -64,7 +67,7 @@ class MessageForm extends Component {
 class MessageList extends Component {
 
   render() {
-    const leaveMessage = Array.isArray(this.props.leaveMessage) ? this.props.leaveMessage : [];
+    const leaveMessage = this.props.leaveMessage;
     const messageList = leaveMessage.map((leaveWords, index) => {
       return <div key={index} className="leave-words">
         <div className="leave-name">{leaveWords.name}</div>
