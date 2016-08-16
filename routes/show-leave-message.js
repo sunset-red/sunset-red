@@ -9,7 +9,7 @@ Router.post('/leaveMessage', function (req, res) {
     const collection = db.collection('sunsetcol');
     collection.find(req.body).toArray(function (err, result) {
       var message = [];
-      if (!result[0] === undefined) {
+      if (result[0]) {
         if (Array.isArray(result[0].leaveMessage)) {
           message = result[0].leaveMessage;
         }
