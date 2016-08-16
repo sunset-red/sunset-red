@@ -5,14 +5,14 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      _id: cookie.load('userId'),
+      userId: cookie.load('userId'),
       name: ''
     }
   }
 
   getName() {
-    const _id = this.state._id;
-    $.get('/userName/' + _id, (name)=> {
+    const userId = this.state.userId;
+    $.get('/userName/' + userId, (name)=> {
       this.setState({name});
     })
   }
@@ -21,7 +21,7 @@ class App extends Component {
     return (
       <div>
         {this.props.children && React.cloneElement(this.props.children, {
-          _id: this.state._id,
+          userId: this.state.userId,
           name: this.state.name,
           getName: this.getName.bind(this)
         })}

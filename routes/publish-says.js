@@ -6,8 +6,9 @@ const url = 'mongodb://localhost:27017/sunset';
 Router.post('/dynamics', function (req, res) {
   MongoClient.connect(url, (err, db)=> {
     const collection = db.collection('sunsetcol');
+
     if (req.body.dynamic) {
-      collection.updateOne({_id: req.body._id}, {
+      collection.updateOne({userId: req.body.userId}, {
         $addToSet: {
           dynamics: {
             dynamic: req.body.dynamic,
@@ -17,7 +18,7 @@ Router.post('/dynamics', function (req, res) {
       });
     }
     var dynamics = [];
-    collection.find({_id: req.body._id}).toArray((err, result)=> {
+    collection.find({userId: req.body.userId}).toArray((err, result)=> {
       if (Array.isArray(result[0].dynamics)) {
         dynamics = result[0].dynamics.reverse();
       }

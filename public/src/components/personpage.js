@@ -13,7 +13,6 @@ export default class PersonPage extends Component {
     super();
     this.state = {
       myFriends: [],
-      isWantToFindFriends: false,
       friends: [],
       hobbies: [],
       city: '',
@@ -27,21 +26,22 @@ export default class PersonPage extends Component {
   showDynamics(newValue) {
     const time = new Date().toLocaleString();
     if (newValue) {
-      $.post('/dynamics', {_id: this.props._id, dynamic: newValue, time}, (data)=> {
+      $.post('/dynamics', {userId: this.props.userId, dynamic: newValue, time}, (data)=> {
         this.setState({myDynamics: data, show: 'show_myhouse'});
       });
     } else {
-      $.post('/dynamics', {_id: this.props._id}, (data)=> {
+      $.post('/dynamics', {userId: this.props.userId}, (data)=> {
         this.setState({myDynamics: data, show: 'show_myhouse'});
       });
     }
   }
 
-  findFriends() {
-    this.setState({
-      isWantToFindFriends: !this.state.isWantToFindFriends,
-      show: ""
-    });
+  showSelectModal() {
+    this.setState({show: "select-modal"})
+  }
+
+  HiddenSelectModal() {
+    this.setState({show: ""});
   }
 
   getHobbies(hobby) {
@@ -58,13 +58,14 @@ export default class PersonPage extends Component {
   }
 
   confirmSelect() {
+    const userId = this.props.userId;
     const hobbies = this.state.hobbies;
     const city = this.state.city;
     const age = this.state.age;
 
     $.ajax({
       type: "POST",
-      url: '/friends',
+      url: '/friends/' + userId,
       data: JSON.stringify({hobbies, city, age}),
       contentType: "application/json",
       dataType: 'json',
@@ -78,17 +79,17 @@ export default class PersonPage extends Component {
   }
 
   addFriends(index) {
-    const _id = this.props._id;
+    const userId = this.props.userId;
     const attentionFriend = this.state.friends[index];
-    $.post('/attention/' + _id, {attentionFriend}, function (message) {
+    $.post('/attention/' + userId, {attentionFriend}, function (message) {
       alert(message);
     });
   }
 
   showMyFriends() {
-    const _id = this.props._id;
+    const userId = this.props.userId;
 
-    $.get('/myFriends/' + _id, (myFriends) => {
+    $.get('/myFriends/' + userId, (myFriends) => {
       this.setState({
         myFriends,
         show: "show-myFriends"
@@ -97,7 +98,7 @@ export default class PersonPage extends Component {
   }
 
   selectMessage() {
-    $.post('/message', {_id: this.props._id}, function (n) {
+    $.post('/message', {userId: this.props.userId}, function (n) {
       this.setState({message: n, show: "person-message"})
     }.bind(this));
   }
@@ -113,11 +114,12 @@ export default class PersonPage extends Component {
   render() {
     return (
       <div>
-        <Header _id={this.props._id} name={this.props.name}/>
-        <Mainer isWantToFindFriends={this.state.isWantToFindFriends} findFriends={this.findFriends.bind(this)}
+        <Header name={this.props.name}/>
+        <Mainer showSelectModal={this.showSelectModal.bind(this)} HiddenSelectModal={this.HiddenSelectModal.bind(this)}
                 getHobbies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
                 friends={this.state.friends} message={this.state.message} show={this.state.show}
+
                 leaveWords={this.leaveWords.bind(this)}
                 onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}
                 showMyFriends={this.showMyFriends.bind(this)} myFriends={this.state.myFriends}
@@ -151,10 +153,10 @@ class Mainer extends Component {
   render() {
     return <div>
       <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage} onLeaveWords={this.props.leaveWords}
-            showMyFriends={this.props.showMyFriends} onDynamics={this.props.onDynamics}
-            onPersonMessage={this.props.onPersonMessage}/>
 
-      <Right isWantToFindFriends={this.props.isWantToFindFriends} findFriends={this.props.findFriends}
+            showMyFriends={this.props.showMyFriends} onDynamics={this.props.onDynamics}
+            onPersonMessage={this.props.onPersonMessage} showSelectModal={this.props.showSelectModal}/>
+      <Right isWantToFindFriends={this.props.isWantToFindFriends} HiddenSelectModal={this.props.HiddenSelectModal}
              getHobbies={this.props.getHobbies} getCity={this.props.getCity}
              getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
              friends={this.props.friends} addFriends={this.props.addFriends}
@@ -171,7 +173,7 @@ class Left extends Component {
   }
 
   toFindFriends() {
-    this.props.findFriends();
+    this.props.showSelectModal();
   }
 
   showMyFriends() {
@@ -218,10 +220,10 @@ class Right extends Component {
   render() {
     return <div className="col-lg-8 " id="showMyHouse">
 
-      <div className={this.props.isWantToFindFriends ? '' : 'hidden'}>
-        <OptionsToFind findFriends={this.props.findFriends} getHobbies={this.props.getHobbies}
-                       getCity={this.props.getCity}
-                       getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}/>
+      <div className={this.props.show === "select-modal" ? "" : 'hidden'}>
+        <OptionsToFind HiddenSelectModal={this.props.HiddenSelectModal} getHobbies={this.props.getHobbies}
+                       getCity={this.props.getCity} getAge={this.props.getAge}
+                       confirmSelect={this.props.confirmSelect}/>
       </div>
       <div className={this.props.show === "find-friends" ? "" : 'hidden'}>
         <ShowFriends friends={this.props.friends} addFriends={this.props.addFriends}/>
@@ -260,7 +262,7 @@ class Footer extends Component {
 
 class OptionsToFind extends Component {
   closeModal() {
-    this.props.findFriends();
+    this.props.HiddenSelectModal();
   }
 
   confirmSelect() {

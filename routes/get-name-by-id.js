@@ -5,14 +5,14 @@ const dbConnectStr = 'mongodb://localhost:27017/sunset';
 
 const app = express();
 
-app.get('/userName/:_id', function (req, res) {
+app.get('/userName/:userId', function (req, res) {
 
-  const _id = req.params._id;
+  const userId = req.params.userId;
 
   mongoClient.connect(dbConnectStr, (err, db)=> {
     const collection = db.collection('sunsetcol');
 
-    collection.findOne({_id}, function (err, result) {
+    collection.findOne({userId}, function (err, result) {
       if (err) {
         throw err;
       }

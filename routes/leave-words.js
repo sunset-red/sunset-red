@@ -13,7 +13,7 @@ app.post('/leaveMessage', function (req, res) {
   MongoClient.connect(dbURL, (err, db)=> {
     const collection = db.collection('sunsetcol');
     if (req.body.words) {
-      collection.update({_id: req.body._id}, {
+      collection.update({userId: req.body.userId}, {
         $push: {
           leaveMessage: {
             name: req.body.name,
@@ -24,7 +24,7 @@ app.post('/leaveMessage', function (req, res) {
       })
     }
 
-    collection.find({_id: req.body._id}).toArray(function (err, result) {
+    collection.find({userId: req.body.userId}).toArray(function (err, result) {
       var message = [];
       if (result[0]) {
         if (Array.isArray(result[0].leaveMessage)) {
@@ -34,8 +34,7 @@ app.post('/leaveMessage', function (req, res) {
       res.send(message);
       db.close();
     });
-
-  })
+  });
 });
 
 module.exports = app;

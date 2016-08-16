@@ -9,15 +9,28 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.post('/friends', function (req, res) {
+app.post('/friends/:userId', function (req, res) {
 
   mongoClient.connect(dbConnectStr, (err, db)=> {
-    const collection = db.collection('sunsetcol');
+    const userId = req.params.userId;
     const hobbies = req.body.hobbies;
     const city = req.body.city;
     const age = req.body.age;
 
-    let friends = [];
+    const friends = [];
+    let myFriends = [];
+    let myself;
+
+    const collection = db.collection('sunsetcol');
+
+    collection.findOne({userId}, function (err, result) {
+      if (err) {
+        throw err;
+      } else {
+        myFriends = result.friends;
+        myself = result.name;
+      }
+    });
 
     collection.find({city, age}).toArray(function (err, result) {
       result.forEach(element => {
@@ -25,7 +38,13 @@ app.post('/friends', function (req, res) {
           friends.push(element.name);
         }
       });
-      res.send(friends);
+
+      const index = friends.indexOf(myself);
+      if (index != -1) {
+        friends.splice(index, 1);
+      }
+      const newFriends = friends.filter(friend => !myFriends.includes(friend));
+      res.send(newFriends);
     });
 
     db.close();

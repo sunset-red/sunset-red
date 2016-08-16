@@ -13,7 +13,7 @@ app.put('/modifyPersonMessage', function (req, res) {
   mongoClient.connect(dbURL, (err, db)=> {
     const collection = db.collection('sunsetcol');
 
-    collection.update({_id: "12345678900"}, {
+    collection.update({userId: "12345678900"}, {
       $set: {
         password: req.body.password,
         authention: {
