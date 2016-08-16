@@ -11,16 +11,14 @@ export default class MessageBoard extends Component {
   }
 
   componentDidMount() {
-
-    $.post('/leaveMessage', {userId: cookie.load('userId')}, function (leaveMessage) {
+    $.post('/messageBoard', {userId: cookie.load('userId')}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }
 
   toLeaveWord(name, words) {
-
     const date = new Date().toLocaleString();
-    $.post('/leaveMessage', {name, words, date, userId: cookie.load('userId')}, function (leaveMessage) {
+    $.post('/messageBoard', {name, words, date, userId: cookie.load('userId')}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }
@@ -47,20 +45,19 @@ class MessageForm extends Component {
   }
 
   render() {
-    return <div>
-      <div className="board-name">
-        姓名: <input type="text" name="name"/>
+    return <div className="form-group">
+      <div className="board-form">
+        <input className="form-control" type="text" name="name" placeholder="请输入您的姓名"/>
       </div>
-      <div className="board-words">
-        留言: <textarea cols="30" name="words" rows="2"></textarea>
+      <div>
+        <textarea className="form-control" name="words" placeholder="请输入您的留言"></textarea>
       </div>
-      <button className="btn btn-primary" type="submit" onClick={this.leaveWord.bind(this)}>提交</button>
+      <button className="board-form btn btn-primary" type="submit" onClick={this.leaveWord.bind(this)}>提交</button>
     </div>
   }
 }
 
 class MessageList extends Component {
-
   render() {
     const leaveMessage = this.props.leaveMessage;
     const messageList = leaveMessage.map((leaveWords, index) => {
