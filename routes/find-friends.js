@@ -16,8 +16,9 @@ app.post('/friends', function (req, res) {
     const city = req.body.city;
     const age = req.body.age;
 
-    let friends = [];
+    const friends = [];
     let myFriends = [];
+    let myself;
 
     const collection = db.collection('sunsetcol');
 
@@ -26,6 +27,7 @@ app.post('/friends', function (req, res) {
         throw err;
       } else {
         myFriends = result.friends;
+        myself = result.name;
       }
     });
 
@@ -36,6 +38,7 @@ app.post('/friends', function (req, res) {
         }
       });
 
+      friends.splice(friends.indexOf(myself), 1);
       const newFriends = friends.filter(friend => !myFriends.includes(friend));
       res.send(newFriends);
     });
