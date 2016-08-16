@@ -10,8 +10,12 @@ Router.post('/relase', function (req, res) {
     if (req.body.says) {
       collection.updateOne({_id: req.body._id}, {$addToSet: {says: req.body.says}});
     }
+    var says = [];
     collection.find({_id: req.body._id}).toArray((err, result)=> {
-      res.send(result[0].says.reverse());
+      if (Array.isArray(result[0].says)) {
+        says = result[0].says.reverse();
+      }
+      res.send(says);
     });
     db.close();
   })
