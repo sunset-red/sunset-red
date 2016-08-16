@@ -19,12 +19,7 @@ export default class MessageBoard extends Component {
 
   toLeaveWord(name, words) {
     const date = new Date().toLocaleString();
-    $.ajax({
-      url: '/leaveWord',
-      type: 'PUT',
-      data: {name, words, date, _id: cookie.load('userId')},
-    });
-    $.post('/leaveMessage', {_id: cookie.load('userId')}, function (leaveMessage) {
+    $.post('/leaveMessage', {name, words, date, _id: cookie.load('userId')}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }
