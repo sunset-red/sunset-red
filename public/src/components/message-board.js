@@ -1,12 +1,10 @@
 import React, {Component} from "react";
+import cookie from 'react-cookie';
 
 export default class MessageBoard extends Component {
   constructor() {
     super();
     this.state = {
-      name: '',
-      words: '',
-      date: new Date().toLocaleString(),
       leaveMessage: [],
       isOwner: false
     };
@@ -14,19 +12,19 @@ export default class MessageBoard extends Component {
 
   componentDidMount() {
 
-    $.post('/leaveMessage', {_id: '12345678900'}, function (leaveMessage) {
+    $.post('/leaveMessage', {_id: cookie.load('userId')}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }
 
   toLeaveWord(name, words) {
-    const date = this.state.date;
+    const date = new Date().toLocaleString();
     $.ajax({
       url: '/leaveWord',
       type: 'PUT',
       data: {name, words, date},
     });
-    $.post('/leaveMessage', {_id: '12345678900'}, function (leaveMessage) {
+    $.post('/leaveMessage', {_id: cookie.load('userId')}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }
