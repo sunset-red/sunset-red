@@ -62,7 +62,7 @@ class MessageForm extends Component {
 class MessageList extends Component {
 
   render() {
-    const leaveMessage = Array.isArray(this.props.leaveMessage) ? this.props.leaveMessage : [];
+    const leaveMessage = this.props.leaveMessage;
     const messageList = leaveMessage.map((leaveWords, index) => {
       return <div key={index} className="leave-words">
         <div className="leave-name">{leaveWords.name}</div>
