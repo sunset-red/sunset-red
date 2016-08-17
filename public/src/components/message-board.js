@@ -11,14 +11,13 @@ export default class MessageBoard extends Component {
   }
 
   componentDidMount() {
-    $.post('/messageBoard', {userId: cookie.load('userId')}, function (leaveMessage) {
+    $.post('/messageBoard', {userId: this.props.userId}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }
 
   toLeaveWord(name, words) {
-    const date = new Date().toLocaleString();
-    $.post('/messageBoard', {name, words, date, userId: cookie.load('userId')}, function (leaveMessage) {
+    $.post('/messageBoard', {name, words, userId: this.props.userId}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }

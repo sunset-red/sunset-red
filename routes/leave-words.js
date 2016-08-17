@@ -8,7 +8,7 @@ const dbURL = 'mongodb://localhost:27017/sunset';
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.post('/leaveMessage', function (req, res) {
+app.post('/messageBoard', function (req, res) {
   MongoClient.connect(dbURL, (err, db)=> {
     const collection = db.collection('sunsetcol');
     if (req.body.words) {
@@ -17,7 +17,7 @@ app.post('/leaveMessage', function (req, res) {
           leaveMessage: {
             name: req.body.name,
             words: req.body.words,
-            date: req.body.date
+            date: new Date().toLocaleString()
           }
         }
       })
