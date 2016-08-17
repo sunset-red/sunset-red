@@ -17,8 +17,7 @@ export default class MessageBoard extends Component {
   }
 
   toLeaveWord(name, words) {
-    const date = new Date().toLocaleString();
-    $.post('/messageBoard', {name, words, date, userId: this.props.userId}, function (leaveMessage) {
+    $.post('/messageBoard', {name, words, userId: this.props.userId}, function (leaveMessage) {
       this.setState({leaveMessage});
     }.bind(this))
   }

@@ -17,7 +17,7 @@ app.post('/messageBoard', function (req, res) {
           leaveMessage: {
             name: req.body.name,
             words: req.body.words,
-            date: req.body.date
+            date: new Date().toLocaleString()
           }
         }
       })
