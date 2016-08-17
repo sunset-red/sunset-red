@@ -119,19 +119,24 @@ export default class PersonPage extends Component {
     return (
       <div>
         <Header name={this.props.name} userId={this.props.userId}/>
-        <Mainer showSelectModal={this.showSelectModal.bind(this)} HiddenSelectModal={this.HiddenSelectModal.bind(this)}
-                getHobbies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
-                getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
-                friends={this.state.friends} message={this.state.message} show={this.state.show}
-
+        <Mainer showSelectModal={this.showSelectModal.bind(this)}
+                HiddenSelectModal={this.HiddenSelectModal.bind(this)}
+                getHobbies={this.getHobbies.bind(this)}
+                getCity={this.getCity.bind(this)}
+                getAge={this.getAge.bind(this)}
+                confirmSelect={this.confirmSelect.bind(this)}
+                friends={this.state.friends}
+                message={this.state.message}
+                show={this.state.show}
+                userId={this.props.userId}
                 leaveWords={this.leaveWords.bind(this)}
-                onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}
-                showMyFriends={this.showMyFriends.bind(this)} myFriends={this.state.myFriends}
-
-                mydynamics={this.state.myDynamics} onDynamics={this.showDynamics.bind(this)}
+                onMessage={this.selectMessage.bind(this)}
+                addFriends={this.addFriends.bind(this)}
+                showMyFriends={this.showMyFriends.bind(this)}
+                myFriends={this.state.myFriends}
+                mydynamics={this.state.myDynamics}
+                onDynamics={this.showDynamics.bind(this)}
                 name={this.props.name}
-
-
                 onModify={this.modifyPersonMessage.bind(this)}
                 confirmModify={this.confirmModify.bind(this)}/>
         <Footer />
@@ -166,19 +171,29 @@ class Header extends Component {
 class Mainer extends Component {
   render() {
     return <div>
-      <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage} onLeaveWords={this.props.leaveWords}
-
-            showMyFriends={this.props.showMyFriends} onDynamics={this.props.onDynamics}
-            onPersonMessage={this.props.onPersonMessage} showSelectModal={this.props.showSelectModal}/>
-      <Right isWantToFindFriends={this.props.isWantToFindFriends} HiddenSelectModal={this.props.HiddenSelectModal}
-             getHobbies={this.props.getHobbies} getCity={this.props.getCity}
-             getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
-             friends={this.props.friends} addFriends={this.props.addFriends}
+      <Left findFriends={this.props.findFriends}
+            onMessage={this.props.onMessage}
+            onLeaveWords={this.props.leaveWords}
+            showMyFriends={this.props.showMyFriends}
+            onDynamics={this.props.onDynamics}
+            onPersonMessage={this.props.onPersonMessage}
+            showSelectModal={this.props.showSelectModal}/>
+      <Right isWantToFindFriends={this.props.isWantToFindFriends}
+             HiddenSelectModal={this.props.HiddenSelectModal}
+             getHobbies={this.props.getHobbies}
+             getCity={this.props.getCity}
+             getAge={this.props.getAge}
+             confirmSelect={this.props.confirmSelect}
+             friends={this.props.friends}
+             addFriends={this.props.addFriends}
+             userId={this.props.userId}
              message={this.props.message} show={this.props.show}
-
-             myFriends={this.props.myFriends} myDynamics={this.props.mydynamics} onDynamics={this.props.onDynamics}
+             myFriends={this.props.myFriends}
+             myDynamics={this.props.mydynamics}
+             onDynamics={this.props.onDynamics}
              name={this.props.name}/>
-      onModify={this.props.onModify} confirmModify={this.props.confirmModify}/>
+      onModify={this.props.onModify}
+      confirmModify={this.props.confirmModify}/>
     </div>
   }
 }
@@ -251,7 +266,7 @@ class Right extends Component {
         </div>
       </div>
       <div className={this.props.show === "leave-words" ? "" : 'hidden'}>
-        <MessageBoard />
+        <MessageBoard userId={this.props.userId}/>
       </div>
       <div className={this.props.show === "show_myhouse" ? "" : 'hidden'}>
         <Publishform onDynamics={this.props.onDynamics}/>
