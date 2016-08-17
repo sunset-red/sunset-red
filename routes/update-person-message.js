@@ -12,8 +12,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.put('/modifyPersonMessage', function (req, res) {
   mongoClient.connect(dbURL, (err, db)=> {
     const collection = db.collection('sunsetcol');
-
-    collection.update({userId: "12345678900"}, {
+    // console.log(req.body.userId);
+    collection.update({userId: req.body.userId}, {
       $set: {
         password: req.body.password,
         authention: {
@@ -25,6 +25,7 @@ app.put('/modifyPersonMessage', function (req, res) {
         city: req.body.city
       }
     })
+    res.sendStatus(200);
   })
 });
 

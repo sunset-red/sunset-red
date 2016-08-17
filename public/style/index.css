@@ -133,3 +133,7 @@ border: solid 1px #3a9d8c;
 #signUpGirl {
   margin-left: 23px;
 }
+
+a{
+  cursor: pointer;
+}

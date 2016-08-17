@@ -57,7 +57,8 @@ export default class SignUpPage extends Component {
   setName(event) {
     this.setState({name: event.target.value})
   }
-  handleName(){
+
+  handleName() {
     $.post('/nameVerify', {name: this.state.name}, (data)=> {
       if (data.length != 0) {
         alert('此昵称已使用！');
@@ -65,9 +66,10 @@ export default class SignUpPage extends Component {
       }
     });
   }
+
   verifyName(event) {
     if (event.keyCode == 9) {
-     this.handleName();
+      this.handleName();
     }
   }
 
@@ -78,7 +80,8 @@ export default class SignUpPage extends Component {
   setPassword(event) {
     this.setState({password: event.target.value})
   }
-  handlePassword(){
+
+  handlePassword() {
     const regu = /^[0-9A-Za-z]{6,20}$/;
     const re = new RegExp(regu);
     if (re.test(this.state.password)) {
@@ -87,19 +90,22 @@ export default class SignUpPage extends Component {
       this.setState({flag: false})
     }
   }
+
   verifyPw(event) {
     if (event.keyCode == 9) {
       this.handlePassword();
     }
   }
+
   verifyPwOnMouse() {
-   this.handlePassword();
+    this.handlePassword();
   }
 
   setConfirmPassword(event) {
     this.setState({cfpw: event.target.value})
   }
-  handleConfirmPassword(){
+
+  handleConfirmPassword() {
     if (this.state.cfpw != this.state.password) {
       alert("确认密码和密码不符合");
       this.setState({flag: false});
@@ -108,14 +114,16 @@ export default class SignUpPage extends Component {
       event.preventDefault();
     }
   }
+
   confirmPw(event) {
     if (event.keyCode == 9) {
-     this.handleConfirmPassword();
+      this.handleConfirmPassword();
     }
   }
+
   confirmPwOnMouse() {
     this.setState({flag: true});
-   this.handleConfirmPassword();
+    this.handleConfirmPassword();
   }
 
   setHobby(hobbies) {
@@ -190,7 +198,8 @@ export default class SignUpPage extends Component {
           <br/>
           <div className="input-group">
             <span className="input-group-addon">确认密码</span>
-            <input type="password" id='cfpw' className="form-control" onChange={this.setConfirmPassword.bind(this, event)}
+            <input type="password" id='cfpw' className="form-control"
+                   onChange={this.setConfirmPassword.bind(this, event)}
                    onKeyDown={this.confirmPw.bind(this)} onClick={this.verifyPwOnMouse.bind(this)}/>
           </div>
           <br/>
@@ -204,8 +213,7 @@ export default class SignUpPage extends Component {
             <Link to="/">返回</Link>
           </div>
           <div className="col-lg-offset-8">
-            <Link to={this.state.flag ?
-              "/personPage" : "/signUpPage"} onClick={this.sendData.bind(this)}>注册</Link>
+            <Link to={this.state.flag ? "/firstHome" : "/signUpPage"} onClick={this.sendData.bind(this)}>注册</Link>
           </div>
         </div>
       </div>
