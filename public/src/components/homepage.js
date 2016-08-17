@@ -140,7 +140,7 @@ class SignIn extends Component {
       </div>
 
       <center>
-        <Link to={this.props.isExist ? '/personPage' : ''}>
+        <Link to={this.props.isExist ? '/firstHome' : ''}>
           <button type="submit" onClick={this.judgeId.bind(this)}>
             登录
           </button>

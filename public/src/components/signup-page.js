@@ -213,7 +213,7 @@ export default class SignUpPage extends Component {
             <Link to="/">返回</Link>
           </div>
           <div className="col-lg-offset-8">
-            <Link to={this.state.flag ? "/personPage" : "/signUpPage"} onClick={this.sendData.bind(this)}>注册</Link>
+            <Link to={this.state.flag ? "/firstHome" : "/signUpPage"} onClick={this.sendData.bind(this)}>注册</Link>
           </div>
         </div>
       </div>

@@ -5,6 +5,8 @@ export default class MessageBoard extends Component {
   constructor() {
     super();
     this.state = {
+      name: '',
+      words: '',
       leaveMessage: [],
       isOwner: false
     };
@@ -22,10 +24,23 @@ export default class MessageBoard extends Component {
     }.bind(this))
   }
 
+  inputName(event) {
+    const name = event.target.value;
+    this.setState({name})
+  }
+
+  inputWords(event) {
+    const words = event.target.value;
+    this.setState({words})
+  }
+
   render() {
     return <div>
       <div className={this.state.isOwner ? 'hidden' : ''}>
-        <MessageForm toLeaveWord={this.toLeaveWord.bind(this)}/>
+        <MessageForm name={this.state.name} words={this.state.words}
+                     toLeaveWord={this.toLeaveWord.bind(this)}
+                     inputName={this.inputName.bind(this)}
+                     inputWords={this.inputWords.bind(this)}/>
       </div>
       <MessageList leaveMessage={this.state.leaveMessage}/>
     </div>
@@ -34,8 +49,8 @@ export default class MessageBoard extends Component {
 
 class MessageForm extends Component {
   leaveWord() {
-    const name = $('input[name=name]').val();
-    const words = $('textarea[name=words]').val();
+    const name = this.props.name;
+    const words = this.props.name;
     if (name && words) {
       this.props.toLeaveWord(name, words);
     } else {
@@ -43,13 +58,27 @@ class MessageForm extends Component {
     }
   }
 
+  inputName(event) {
+    this.props.inputName(event);
+  }
+
+  inputWords(event) {
+    this.props.inputWords(event);
+  }
+
   render() {
     return <div className="form-group">
       <div className="board-form">
-        <input className="form-control" type="text" name="name" placeholder="请输入您的姓名"/>
+        <input className="form-control"
+               type="text" name="name"
+               placeholder="请输入您的姓名"
+               onChange={this.inputName.bind(this)}/>
       </div>
       <div>
-        <textarea className="form-control" name="words" placeholder="请输入您的留言"></textarea>
+        <textarea className="form-control"
+                  name="words"
+                  placeholder="请输入您的留言"
+                  onChange={this.inputWords.bind(this)}></textarea>
       </div>
       <button className="board-form btn btn-primary" type="submit" onClick={this.leaveWord.bind(this)}>提交</button>
     </div>
