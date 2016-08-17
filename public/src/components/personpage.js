@@ -191,9 +191,9 @@ class Mainer extends Component {
              myFriends={this.props.myFriends}
              myDynamics={this.props.mydynamics}
              onDynamics={this.props.onDynamics}
-             name={this.props.name}/>
-      onModify={this.props.onModify}
-      confirmModify={this.props.confirmModify}/>
+             name={this.props.name}
+             onModify={this.props.onModify}
+             confirmModify={this.props.confirmModify}/>
     </div>
   }
 }
