@@ -112,7 +112,9 @@ export default class PersonPage extends Component {
   }
 
   confirmModify() {
-    this.setState({show: "person-message"})
+    console.log('1');
+    this.selectMessage();
+    // this.setState({show: "person-message"})
   }
 
   render() {
@@ -131,9 +133,9 @@ export default class PersonPage extends Component {
                 mydynamics={this.state.myDynamics} onDynamics={this.showDynamics.bind(this)}
                 name={this.props.name}
 
-
                 onModify={this.modifyPersonMessage.bind(this)}
-                confirmModify={this.confirmModify.bind(this)}/>
+                confirmModify={this.confirmModify.bind(this)}
+                userId={this.props.userId}/>
         <Footer />
       </div>
     )
@@ -172,8 +174,9 @@ class Mainer extends Component {
              message={this.props.message} show={this.props.show}
 
              myFriends={this.props.myFriends} myDynamics={this.props.mydynamics} onDynamics={this.props.onDynamics}
-             name={this.props.name}/>
-      onModify={this.props.onModify} confirmModify={this.props.confirmModify}/>
+             name={this.props.name}
+             onModify={this.props.onModify} confirmModify={this.props.confirmModify}
+             userId={this.props.userId}/>
     </div>
   }
 }
@@ -253,10 +256,10 @@ class Right extends Component {
         <Dynamics myDynamics={this.props.myDynamics} name={this.props.name}/>
       </div>
       <div className={this.props.show === "modify-person-message" ? "" : 'hidden'}>
-        <span>基本资料</span>
+        <span>修改资料</span>
         <hr/>
         <div className="col-md-5">
-          <ModifyPersonMessage confirmModify={this.props.confirmModify}/>
+          <ModifyPersonMessage userId={this.props.userId} confirmModify={this.props.confirmModify}/>
         </div>
       </div>
     </div>

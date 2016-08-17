@@ -4,10 +4,10 @@ import Select from 'react-select';
 import {Hobbies, City, AgeSegment} from './select-options';
 
 export default class ModifyPersonMessage extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      _id: '12345678900',
+      userId: this.props.userId,
       password: '',
       authention: {
         question: '',
@@ -45,14 +45,18 @@ export default class ModifyPersonMessage extends Component {
   }
 
   modifyMessage() {
+    console.log(this.state)
+    console.log(JSON.stringify(this.state))
     $.ajax({
       type: 'PUT',
       url: '/modifyPersonMessage',
       contentType: 'application/json',
       data: JSON.stringify(this.state),
-      dataType: 'json',
+      success:()=> {
+        console.log(this);
+        this.props.confirmModify();
+      }
     });
-    this.props.confirmModify();
   }
 
   render() {
@@ -77,10 +81,8 @@ export default class ModifyPersonMessage extends Component {
         <AgeSegment getAge={this.setAge.bind(this)}/>
         <br/>
         <button type="button" className="btn btn-default col-lg-5 col-lg-offset-3">
-          <Link to="/personPage">取消修改</Link>
+          <Link to="/personPage" onClick={this.modifyMessage.bind(this)}>确认修改</Link>
         </button>
-        <Link to="/personPage" onClick={this.modifyMessage.bind(this)}>确认修改</Link>
-
       </div>
     )
   }
