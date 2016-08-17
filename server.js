@@ -9,7 +9,7 @@ function makeServer() {
   const addFriends = require('./routes/add-firend');
   const showMyFriends = require('./routes/show-my-friends');
   const publishSays = require('./routes/publish-says');
-  const leaveWords = require('./routes/leave-words');
+  const leaveMessage = require('./routes/leave-words');
   const getNameById = require('./routes/get-name-by-id');
   const modifyPersonMessage = require('./routes/update-person-message');
 
@@ -35,7 +35,7 @@ function makeServer() {
   app.use(personMessage);
   app.use('/', signup);
 
-  app.use('/', leaveWords);
+  app.use('/', leaveMessage);
   app.use('/', modifyPersonMessage);
 
   app.use('/', findFriends);

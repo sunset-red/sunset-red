@@ -1,22 +1,28 @@
 var express = require('express');
 var Router = express.Router();
-
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017/sunset';
 
-Router.post('/relase', function (req, res) {
+Router.post('/dynamics', function (req, res) {
   MongoClient.connect(url, (err, db)=> {
     const collection = db.collection('sunsetcol');
-    if (req.body.says) {
-      collection.updateOne({userId: req.body.userId}, {$addToSet: {says: req.body.says}});
-    }
 
-    var says = [];
+    if (req.body.dynamic) {
+      collection.updateOne({userId: req.body.userId}, {
+        $addToSet: {
+          dynamics: {
+            dynamic: req.body.dynamic,
+            time: req.body.time
+          }
+        }
+      });
+    }
+    var dynamics = [];
     collection.find({userId: req.body.userId}).toArray((err, result)=> {
-      if (Array.isArray(result[0].says)) {
-        says = result[0].says.reverse();
+      if (Array.isArray(result[0].dynamics)) {
+        dynamics = result[0].dynamics.reverse();
       }
-      res.send(says);
+      res.send(dynamics);
     });
     db.close();
   })

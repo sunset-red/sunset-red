@@ -1,14 +1,12 @@
 import React, {Component} from "react";
-import {Link} from 'react-router';
-import cookie from 'react-cookie';
-
-import {Hobbies, City, AgeSegment} from './select-options';
-import ShowFriends from './show-friends';
-import MessageTable from './person-message';
-import MessageBoard from './message-board'
-import ShowMyFriends from './show-my-friends';
-import {Published, Myhouse} from './myhouse';
-import ModifyPersonMessage from './modify-person-message'
+import {Link} from "react-router";
+import {Hobbies, City, AgeSegment} from "./select-options";
+import ShowFriends from "./show-friends";
+import MessageTable from "./person-message";
+import MessageBoard from "./message-board";
+import ShowMyFriends from "./show-my-friends";
+import {Publishform, Dynamics} from "./myhouse";
+import ModifyPersonMessage from "./modify-person-message";
 
 export default class PersonPage extends Component {
   constructor() {
@@ -21,18 +19,19 @@ export default class PersonPage extends Component {
       age: '',
       message: {name: '', sex: "", age: "0", city: "", hobbies: []},
       show: "",
-      mysay: []
+      myDynamics: []
     }
   }
 
-  relase(newValue) {
+  showDynamics(newValue) {
+    const time = new Date().toLocaleString();
     if (newValue) {
-      $.post('/relase', {userId: this.props.userId, says: newValue}, (data)=> {
-        this.setState({mysay: data, show: 'show_myhouse'});
+      $.post('/dynamics', {userId: this.props.userId, dynamic: newValue, time}, (data)=> {
+        this.setState({myDynamics: data, show: 'show_myhouse'});
       });
     } else {
-      $.post('/relase', {userId: this.props.userId}, (data)=> {
-        this.setState({mysay: data, show: 'show_myhouse'});
+      $.post('/dynamics', {userId: this.props.userId}, (data)=> {
+        this.setState({myDynamics: data, show: 'show_myhouse'});
       });
     }
   }
@@ -109,7 +108,11 @@ export default class PersonPage extends Component {
   }
 
   modifyPersonMessage() {
-    this.setState({show: 'modify-person-message'})
+    this.setState({show: "modify-person-message"})
+  }
+
+  confirmModify() {
+    this.setState({show: "person-message"})
   }
 
   render() {
@@ -124,8 +127,13 @@ export default class PersonPage extends Component {
                 leaveWords={this.leaveWords.bind(this)}
                 onMessage={this.selectMessage.bind(this)} addFriends={this.addFriends.bind(this)}
                 showMyFriends={this.showMyFriends.bind(this)} myFriends={this.state.myFriends}
-                says={this.state.mysay} onRelase={this.relase.bind(this)}
-                onPersonMessage={this.modifyPersonMessage.bind(this)}/>
+
+                mydynamics={this.state.myDynamics} onDynamics={this.showDynamics.bind(this)}
+                name={this.props.name}
+
+
+                onModify={this.modifyPersonMessage.bind(this)}
+                confirmModify={this.confirmModify.bind(this)}/>
         <Footer />
       </div>
     )
@@ -159,21 +167,25 @@ class Mainer extends Component {
   render() {
     return <div>
       <Left findFriends={this.props.findFriends} onMessage={this.props.onMessage} onLeaveWords={this.props.leaveWords}
-            showMyFriends={this.props.showMyFriends} onRelase={this.props.onRelase}
+
+            showMyFriends={this.props.showMyFriends} onDynamics={this.props.onDynamics}
             onPersonMessage={this.props.onPersonMessage} showSelectModal={this.props.showSelectModal}/>
       <Right isWantToFindFriends={this.props.isWantToFindFriends} HiddenSelectModal={this.props.HiddenSelectModal}
              getHobbies={this.props.getHobbies} getCity={this.props.getCity}
              getAge={this.props.getAge} confirmSelect={this.props.confirmSelect}
              friends={this.props.friends} addFriends={this.props.addFriends}
              message={this.props.message} show={this.props.show}
-             myFriends={this.props.myFriends} says={this.props.says} onRelase={this.props.onRelase}/>
+
+             myFriends={this.props.myFriends} myDynamics={this.props.mydynamics} onDynamics={this.props.onDynamics}
+             name={this.props.name}/>
+      onModify={this.props.onModify} confirmModify={this.props.confirmModify}/>
     </div>
   }
 }
 
 class Left extends Component {
-  relase() {
-    this.props.onRelase();
+  dynamics() {
+    this.props.onDynamics();
   }
 
   toFindFriends() {
@@ -192,10 +204,6 @@ class Left extends Component {
     this.props.onLeaveWords();
   }
 
-  modifyPersonMessage() {
-    this.props.onPersonMessage();
-  }
-
   render() {
     return <div className="col-lg-4">
       <div id="leftOfPersonPage">
@@ -206,9 +214,8 @@ class Left extends Component {
           <ul className="list-group">
             <li className="list-group-item"><a onClick={this.toFindFriends.bind(this)}> 推荐好友</a></li>
             <li className="list-group-item"><a onClick={this.showMyFriends.bind(this)}>我的好友</a></li>
-            <li className="list-group-item"><a onClick={this.relase.bind(this)}>我的动态</a></li>
+            <li className="list-group-item"><a onClick={this.dynamics.bind(this)}>我的动态</a></li>
             <li className="list-group-item"><a onClick={this.selectMessage.bind(this)}>个人信息</a></li>
-            <li className="list-group-item"><a onClick={this.modifyPersonMessage.bind(this)}>修改信息</a></li>
             <li className="list-group-item"><a onClick={this.toLeaveWords.bind(this)}>留言板</a></li>
           </ul>
         </div>
@@ -239,18 +246,23 @@ class Right extends Component {
         <span>基本资料</span>
         <hr/>
         <div className="col-md-5">
-          <MessageTable message={this.props.message} show={this.props.show}/>
+          <MessageTable message={this.props.message} show={this.props.show}
+                        onModify={this.props.onModify}/>
         </div>
       </div>
       <div className={this.props.show === "leave-words" ? "" : 'hidden'}>
         <MessageBoard />
       </div>
       <div className={this.props.show === "show_myhouse" ? "" : 'hidden'}>
-        <Published onRelase={this.props.onRelase}/>
-        <Myhouse says={this.props.says}/>
+        <Publishform onDynamics={this.props.onDynamics}/>
+        <Dynamics myDynamics={this.props.myDynamics} name={this.props.name}/>
       </div>
       <div className={this.props.show === "modify-person-message" ? "" : 'hidden'}>
-        <ModifyPersonMessage/>
+        <span>基本资料</span>
+        <hr/>
+        <div className="col-md-5">
+          <ModifyPersonMessage confirmModify={this.props.confirmModify}/>
+        </div>
       </div>
     </div>
   }
@@ -264,7 +276,7 @@ class Footer extends Component {
   }
 }
 
-class OptionsToFind extends Component {
+export class OptionsToFind extends Component {
   closeModal() {
     this.props.HiddenSelectModal();
   }
