@@ -112,9 +112,7 @@ export default class PersonPage extends Component {
   }
 
   confirmModify() {
-    console.log('1');
     this.selectMessage();
-    // this.setState({show: "person-message"})
   }
 
   render() {

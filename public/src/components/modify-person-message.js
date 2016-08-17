@@ -45,15 +45,12 @@ export default class ModifyPersonMessage extends Component {
   }
 
   modifyMessage() {
-    console.log(this.state)
-    console.log(JSON.stringify(this.state))
     $.ajax({
       type: 'PUT',
       url: '/modifyPersonMessage',
       contentType: 'application/json',
       data: JSON.stringify(this.state),
       success:()=> {
-        console.log(this);
         this.props.confirmModify();
       }
     });
