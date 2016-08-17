@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {Link} from 'react-router';
 import Select from 'react-select';
 
+import cookie from 'react-cookie';
+
 export default class SignUpPage extends Component {
   constructor(props) {
     super(props);
@@ -175,6 +177,9 @@ export default class SignUpPage extends Component {
     } else {
       alert('注册失败！')
     }
+
+    cookie.save('userId', messages.userId, {path: '/'});
+    this.props.getName();
   }
 
   render() {

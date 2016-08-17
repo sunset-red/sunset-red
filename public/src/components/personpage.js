@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Link} from 'react-router';
+import cookie from 'react-cookie';
 
 import {Hobbies, City, AgeSegment} from './select-options';
 import ShowFriends from './show-friends';
@@ -114,7 +115,7 @@ export default class PersonPage extends Component {
   render() {
     return (
       <div>
-        <Header name={this.props.name}/>
+        <Header name={this.props.name} userId={this.props.userId}/>
         <Mainer showSelectModal={this.showSelectModal.bind(this)} HiddenSelectModal={this.HiddenSelectModal.bind(this)}
                 getHobbies={this.getHobbies.bind(this)} getCity={this.getCity.bind(this)}
                 getAge={this.getAge.bind(this)} confirmSelect={this.confirmSelect.bind(this)}
@@ -132,6 +133,11 @@ export default class PersonPage extends Component {
 }
 
 class Header extends Component {
+  clearCookie() {
+    cookie.remove('userId', {path: '/'});
+    Object.keys(cookie.select(/^session.*/i)).forEach(name => cookie.remove(name, {path: '/'}));
+  }
+
   render() {
     return <div className="col-lg-12" id="headerOfPersonPage">
       <div className="col-lg-4">
@@ -142,7 +148,7 @@ class Header extends Component {
       <div className="col-lg-8">
         <div className="col-lg-offset-9" id="welcome">
           <span>欢迎, <em>{this.props.name}</em></span>&nbsp;&nbsp;
-          <Link to="/">退出登录</Link>
+          <Link to="/" onClick={this.clearCookie.bind(this)}>退出登录</Link>
         </div>
       </div>
     </div>
